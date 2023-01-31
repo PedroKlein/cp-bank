@@ -6,17 +6,14 @@ const Footer: React.FC = () => {
     <footer className="container-fluid">
       <nav>
         <ul>
-          <li>Copyright By Rajdeep singh</li>
+          <li><a href="http://www.ufrgs.br/ufrgs/inicial">
+              @ufrgs
+            </a></li>
         </ul>
         <ul>
           <li>
-            <a>
+            <a href="https://github.com/PedroKlein/cp-bank">
               <FaGithub />
-            </a>
-          </li>
-          <li>
-            <a>
-              <FaTwitter />
             </a>
           </li>
         </ul>

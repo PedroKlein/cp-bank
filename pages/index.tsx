@@ -2,7 +2,7 @@ import React from "react";
 
 const Home: React.FC = () => {
   return (
-    <main>
+    <main className="container">
       <section id="typography">
         <h2>Typography</h2>
         <p>
@@ -116,19 +116,6 @@ const Home: React.FC = () => {
           semper id. Nunc risus felis, egestas eu tristique eget, convallis in
           velit.
         </p>
-
-        <figure>
-          <img
-            src="assets/aleksandar-jason-a562ZEFKW8I-unsplash-2000x1000.jpg"
-            alt="Minimal landscape"
-          />
-          <figcaption>
-            Image from{" "}
-            <a href="https://unsplash.com/photos/a562ZEFKW8I" target="_blank">
-              unsplash.com
-            </a>
-          </figcaption>
-        </figure>
       </section>
     </main>
   );

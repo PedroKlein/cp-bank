@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { MdNightlightRound, MdWbSunny } from "react-icons/md";
+import ThemeSwitch from "../../components/ThemeSwitch";
 import styles from "./header.module.scss";
 
 const Header: React.FC = () => {
@@ -20,15 +21,7 @@ const Header: React.FC = () => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <button
-              id="theme-toggle"
-              type="button"
-              className={styles.themeToggleButton}
-              data-theme-switcher="light"
-            >
-              <MdNightlightRound fill="black" id="theme-toggle-dark-icon" />
-              <MdWbSunny fill="white" id="theme-toggle-light-icon" />
-            </button>
+            <ThemeSwitch />
           </li>
         </ul>
       </nav>
