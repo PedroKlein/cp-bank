@@ -1,0 +1,8 @@
+// Enable <header>, <main>, <footer> inside <body> as a container
+$enable-semantic-container: false;
+
+// Enable .container and .container-fluid
+$enable-class-container: false;
+
+@import "pico";
+@import "@picocss/pico/scss/pico/layout/sectioning";
