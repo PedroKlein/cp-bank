@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -10,7 +11,7 @@ const FirstLogin: React.FC = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const cfUserRef = useRef<HTMLInputElement>(null);
-  const isProfessorRef = useRef<HTMLInputElement>(null);
+  const isStudentRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
@@ -21,13 +22,13 @@ const FirstLogin: React.FC = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!cfUserRef || !isProfessorRef) {
+    if (!cfUserRef || !isStudentRef) {
       return;
     }
 
     const body: PostNewUserReq = {
       cfUsername: cfUserRef.current.value,
-      isProfessor: isProfessorRef.current.checked,
+      role: isStudentRef.current.checked ? Role.STUDENT : Role.PROFESSOR,
     };
 
     await axios.post("/api/user/new", body);
@@ -46,7 +47,14 @@ const FirstLogin: React.FC = () => {
         </hgroup>
       </div>
       <div>
-        <h2>Please fill in your informations</h2>
+        <hgroup>
+          <h3>Please fill in your informations</h3>
+          <small>
+            <mark>Attention!</mark> You won't be able to edit these
+            informations!
+          </small>
+        </hgroup>
+
         <form onSubmit={handleSubmit}>
           <fieldset>
             <label htmlFor="cfUser">
@@ -60,20 +68,31 @@ const FirstLogin: React.FC = () => {
                 required
               />
             </label>
-
-            <label htmlFor="isProfessor">
-              <input
-                type="checkbox"
-                id="isProfessor"
-                name="isProfessor"
-                ref={isProfessorRef}
-              />
-              I'am a professor
-            </label>
+            <fieldset className="grid">
+              <legend>Type of user</legend>
+              <label htmlFor="isStudent">
+                <input
+                  type="radio"
+                  id="isStudent"
+                  name="userRole"
+                  ref={isStudentRef}
+                  value={Role.STUDENT}
+                  checked
+                />
+                I'am a student
+              </label>
+              <label htmlFor="isProfessor">
+                <input
+                  type="radio"
+                  id="isProfessor"
+                  name="userRole"
+                  value={Role.PROFESSOR}
+                />
+                I'am a professor
+              </label>
+            </fieldset>
           </fieldset>
-          <small>
-            <mark>Attention!</mark> You won't be able to edit this informations!
-          </small>
+
           <button type="submit">Submit</button>
         </form>
       </div>
