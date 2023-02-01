@@ -1,21 +1,19 @@
-@import "./pico-react.scss";
+// html {
+//   @media (min-width: 768px) {
+//     body > header,
+//     body > div[id] header,
+//     body > main,
+//     body > div[id] main,
+//     body > footer,
+//     body > div[id] footer {
+//       max-width: 700px;
+//     }
+//   }
+// }
 
-html {
-  @media (min-width: 768px) {
-    body > header,
-    body > div[id] header,
-    body > main,
-    body > div[id] main,
-    body > footer,
-    body > div[id] footer {
-      max-width: 700px;
-    }
-  }
-}
-
-main {
-  padding: 2rem;
-}
+// main {
+//   padding: 2rem;
+// }
 
 #theme-switch {
   position: relative;

@@ -16,4 +16,7 @@ const options: AuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
+  pages: {
+    newUser: "/auth/new-user",
+  },
 };

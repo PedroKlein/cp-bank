@@ -3,7 +3,7 @@ import { FaTwitter, FaGithub } from "react-icons/fa";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="container-fluid">
+    <footer className="container">
       <nav>
         <ul>
           <li><a href="http://www.ufrgs.br/ufrgs/inicial">

@@ -1,10 +1,8 @@
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { MdNightlightRound, MdWbSunny } from "react-icons/md";
+import React from "react";
 import ThemeSwitch from "../../components/ThemeSwitch";
-import styles from "./header.module.scss";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -26,7 +24,9 @@ const Header: React.FC = () => {
         <ul>
           {session ? (
             <li>
-              <a onClick={() => signOut()}>Log out</a>
+              <a style={{ cursor: "pointer" }} onClick={() => signOut()}>
+                Log out
+              </a>
             </li>
           ) : (
             <li>
