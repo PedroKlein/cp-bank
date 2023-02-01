@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import createHttpError from "http-errors";
-import { apiHandler } from "@/utils/api/api.handler";
 import { getSession } from "next-auth/react";
-import prisma from "@/lib/prisma";
+import prisma from "../../../lib/prisma";
+import { apiHandler } from "../../../utils/api/api.handler";
 
 export type PostNewUserReq = {
   cfUsername: string;

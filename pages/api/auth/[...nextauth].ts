@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import NextAuth, { AuthOptions } from "next-auth";
+import NextAuth, { AuthOptions, Session } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GitHubProvider from "next-auth/providers/github";
 import prisma from "../../../lib/prisma";
@@ -18,5 +18,17 @@ const options: AuthOptions = {
   secret: process.env.SECRET,
   pages: {
     newUser: "/auth/new-user",
+  },
+  callbacks: {
+    //@ts-ignore
+    async session(session) {
+      const user = await prisma.user.findFirst({
+        where: { email: session.user.email },
+      });
+
+      session.user = user;
+
+      return session;
+    },
   },
 };

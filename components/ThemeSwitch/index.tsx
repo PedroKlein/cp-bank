@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useThemeContext } from "@/hooks/useThemeContext";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 const ThemeSwitch: React.FC = () => {
   const { darkMode, setDarkMode } = useThemeContext();

@@ -11,7 +11,6 @@ const FirstLogin: React.FC = () => {
   const { data: session, status } = useSession();
   const cfUserRef = useRef<HTMLInputElement>(null);
   const isProfessorRef = useRef<HTMLInputElement>(null);
-
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
