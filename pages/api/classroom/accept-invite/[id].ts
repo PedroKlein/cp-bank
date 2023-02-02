@@ -17,11 +17,18 @@ async function postAcceptInvite(req: NextApiRequest, res: NextApiResponse) {
 
   if (classroomRequest) throw new createHttpError.BadRequest();
 
-  // await prisma.classroom.create({
-  //   data: crea,
-  // });
+  const classroom = await prisma.classroom.update({
+    where: { id: classroomId },
+    data: {
+      students: {
+        create: {
+          id: session.user.id,
+        },
+      },
+    },
+  });
 
-  // res.json(classroom);
+  res.json(classroom);
 }
 
 export default apiHandler({
