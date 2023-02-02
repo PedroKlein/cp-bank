@@ -63,7 +63,7 @@ model User {
   sessions                Session[]
   professorClassrooms     Classroom[]               @relation("professor")
   classrooms              Classroom[]
-  PendingClassroomRequest PendingClassroomRequest[]
+  pendingClassroomRequest PendingClassroomRequest[]
 
   @@map(name: "users")
 }
@@ -90,7 +90,7 @@ model Classroom {
 
   professor               User                      @relation(name: "professor", fields: [professorId], references: [id], onDelete: Cascade)
   students                User[]
-  PendingClassroomRequest PendingClassroomRequest[]
+  pendingClassroomRequest PendingClassroomRequest[]
 
   @@unique([professorId, name])
   @@map(name: "classrooms")

@@ -3,9 +3,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef } from "react";
-import { PostNewUserReq } from "../api/user/new";
-
-// import { Container } from './styles';
+import { PatchNewUserReq } from "../api/user/new";
 
 const FirstLogin: React.FC = () => {
   const router = useRouter();
@@ -15,7 +13,6 @@ const FirstLogin: React.FC = () => {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
-      return;
     }
   }, [router]);
 
@@ -26,12 +23,12 @@ const FirstLogin: React.FC = () => {
       return;
     }
 
-    const body: PostNewUserReq = {
+    const body: PatchNewUserReq = {
       cfUsername: cfUserRef.current.value,
       role: isStudentRef.current.checked ? Role.STUDENT : Role.PROFESSOR,
     };
 
-    await axios.post("/api/user/new", body);
+    await axios.patch("/api/user/new", body);
 
     router.push("/");
   }
