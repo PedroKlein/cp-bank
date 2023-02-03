@@ -25,7 +25,8 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
     "react-markdown": "8.0.5",
-    "sass": "^1.57.1"
+    "sass": "^1.57.1",
+    "swr": "^2.0.3"
   },
   "devDependencies": {
     "@types/http-errors": "^2.0.1",

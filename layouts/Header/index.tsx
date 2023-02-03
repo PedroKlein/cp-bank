@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import ThemeSwitch from "../../components/ThemeSwitch";
+import Styles from "./header.module.scss";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -22,11 +23,20 @@ const Header: React.FC = () => {
         </ul>
 
         <ul>
+          {/* <li>
+            <ThemeSwitch />
+          </li> */}
+          <li>
+            <Link href="/classroom">My Classrooms</Link>
+          </li>
           {session ? (
             <li>
-              <a style={{ cursor: "pointer" }} onClick={() => signOut()}>
-                Log out
-              </a>
+              <span style={{ marginRight: "10px" }}>{session.user.name}</span>
+              <img
+                src={session.user.image}
+                alt=""
+                style={{ borderRadius: "50%", width: "50px" }}
+              />
             </li>
           ) : (
             <li>
@@ -35,10 +45,6 @@ const Header: React.FC = () => {
               </Link>
             </li>
           )}
-
-          <li>
-            <ThemeSwitch />
-          </li>
         </ul>
       </nav>
     </header>

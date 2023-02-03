@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useState } from "react";
 
 const isOpenClass = "modal-is-open";
 const openingClass = "modal-is-opening";
@@ -8,11 +9,22 @@ const animationDuration = 400;
 type Props = {
   children?: React.ReactNode;
   isOpen: boolean;
+  positiveButtonText?: string;
+  positiveButtonLoadingText?: string;
   onClose: () => void;
+  onPositive?: () => Promise<void>;
 };
 
-const Modal: React.FC<Props> = ({ children, isOpen, onClose }) => {
+const Modal: React.FC<Props> = ({
+  children,
+  isOpen,
+  positiveButtonText,
+  positiveButtonLoadingText,
+  onClose,
+  onPositive,
+}) => {
   const modalRef = useRef<HTMLDialogElement>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -45,6 +57,7 @@ const Modal: React.FC<Props> = ({ children, isOpen, onClose }) => {
   }, [isOpen, modalRef]);
 
   function closeModal() {
+    if (loading) return;
     document.documentElement.classList.add(closingClass);
     setTimeout(() => {
       document.documentElement.classList.remove(closingClass, isOpenClass);
@@ -78,6 +91,17 @@ const Modal: React.FC<Props> = ({ children, isOpen, onClose }) => {
     return document.body.scrollHeight > screen.height;
   }
 
+  async function handlePositive() {
+    setLoading(true);
+    if (onPositive) {
+      await onPositive();
+    }
+    setLoading(false);
+    closeModal();
+  }
+
+  if (!isOpen) return;
+
   return (
     <dialog id="modal-example" ref={modalRef} onClick={closeModal}>
       <article onClick={(e) => e.stopPropagation()}>
@@ -86,23 +110,29 @@ const Modal: React.FC<Props> = ({ children, isOpen, onClose }) => {
           aria-label="Close"
           className="close"
           onClick={closeModal}
+          style={{ marginBottom: 0 }}
         ></a>
-        <h3>Confirm your action!</h3>
-        <p>
-          Cras sit amet maximus risus. Pellentesque sodales odio sit amet augue
-          finibus pellentesque. Nullam finibus risus non semper euismod.
-        </p>
-        <footer>
+        {children}
+        <footer style={{ marginTop: 0 }}>
           <a
             href="#cancel"
             role="button"
             className="secondary"
             onClick={closeModal}
+            // @ts-ignore
+            disabled={loading}
           >
             Cancel
           </a>
-          <a href="#confirm" role="button" onClick={closeModal}>
-            Confirm
+          <a
+            href="#confirm"
+            role="button"
+            aria-busy={loading}
+            onClick={handlePositive}
+          >
+            {loading
+              ? positiveButtonLoadingText || "Loading"
+              : positiveButtonText || "Confirm"}
           </a>
         </footer>
       </article>
