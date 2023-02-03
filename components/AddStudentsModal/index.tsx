@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import Modal from "../../layouts/Modal";
 import axios from "axios";
-import { PostCreateClassroomReq } from "../../pages/api/classroom/create";
 
 type Props = {
   isOpen: boolean;
@@ -14,14 +13,6 @@ const AddStudentsModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   async function handleSubmit() {
     if (!classroomNameRef || !classroomDescRef) return;
-
-    const body: PostCreateClassroomReq = {
-      name: classroomNameRef.current.value,
-      description: classroomDescRef.current.value,
-    };
-    console.log(body);
-
-    await axios.post("/api/classroom/create", body);
   }
 
   return (

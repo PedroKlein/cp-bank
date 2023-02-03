@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import Modal from "../../layouts/Modal";
 import axios from "axios";
-import { PostCreateClassroomReq } from "../../pages/api/classroom/create";
+import { PostCreateClassroomReq } from "../../pages/api/classroom";
 
 type Props = {
   isOpen: boolean;
@@ -20,7 +20,7 @@ const CreateClassroomModal: React.FC<Props> = ({ isOpen, onClose }) => {
       description: classroomDescRef.current.value,
     };
 
-    await axios.post("/api/classroom/create", body);
+    await axios.post("/api/classroom", body);
   }
 
   return (
