@@ -37,12 +37,17 @@ export function apiHandler(handler: ApiMethodHandlers) {
 
 function checkRoles(requiredRoles: RequiredRoles, user: User) {
   if (requiredRoles === "authenticated-user") {
-    if (!user) throw new createHttpError.Unauthorized();
+    if (!user)
+      throw new createHttpError.Unauthorized(
+        "You need to be logged in to access."
+      );
     return;
   }
 
   if (requiredRoles.length === 0) return;
 
   if (!user || !requiredRoles.includes(user.role))
-    throw new createHttpError.Unauthorized();
+    throw new createHttpError.Unauthorized(
+      "You dont have the necessary role to access this."
+    );
 }

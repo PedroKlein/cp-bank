@@ -5,9 +5,9 @@ import { NextApiHandler } from "next";
 export interface ErrorResponse {
   error: {
     message: string;
-    err?: any; // Sent for unhandled errors reulting in 500
+    err?: any;
   };
-  status?: number; // Sent for unhandled errors reulting in 500
+  status?: number;
 }
 
 export type RequiredRoles = Role[] | "authenticated-user";

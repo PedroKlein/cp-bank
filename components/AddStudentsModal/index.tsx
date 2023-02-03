@@ -8,7 +8,7 @@ type Props = {
   onClose: () => void;
 };
 
-const CreateClassroomModal: React.FC<Props> = ({ isOpen, onClose }) => {
+const AddStudentsModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const classroomNameRef = useRef<HTMLInputElement>(null);
   const classroomDescRef = useRef<HTMLTextAreaElement>(null);
 
@@ -19,6 +19,7 @@ const CreateClassroomModal: React.FC<Props> = ({ isOpen, onClose }) => {
       name: classroomNameRef.current.value,
       description: classroomDescRef.current.value,
     };
+    console.log(body);
 
     await axios.post("/api/classroom/create", body);
   }
@@ -55,4 +56,4 @@ const CreateClassroomModal: React.FC<Props> = ({ isOpen, onClose }) => {
   );
 };
 
-export default CreateClassroomModal;
+export default AddStudentsModal;

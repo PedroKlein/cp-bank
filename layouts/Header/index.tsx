@@ -12,7 +12,7 @@ const Header: React.FC = () => {
     router.pathname === pathname;
 
   return (
-    <header className="container">
+    <header className="container" style={{ minHeight: "90px" }}>
       <nav>
         <ul>
           <li>
@@ -26,18 +26,28 @@ const Header: React.FC = () => {
           {/* <li>
             <ThemeSwitch />
           </li> */}
-          <li>
-            <Link href="/classroom">My Classrooms</Link>
-          </li>
+
           {session ? (
-            <li>
-              <span style={{ marginRight: "10px" }}>{session.user.name}</span>
-              <img
-                src={session.user.image}
-                alt=""
-                style={{ borderRadius: "50%", width: "50px" }}
-              />
-            </li>
+            <>
+              <li>
+                <Link data-active={isActive("/classroom")} href="/classroom">
+                  My Classrooms
+                </Link>
+              </li>
+              <li>
+                <a style={{ cursor: "pointer" }} onClick={() => signOut()}>
+                  Log out
+                </a>
+              </li>
+              <li>
+                <span style={{ marginRight: "10px" }}>{session.user.name}</span>
+                <img
+                  src={session.user.image}
+                  alt=""
+                  style={{ borderRadius: "50%", width: "50px" }}
+                />
+              </li>
+            </>
           ) : (
             <li>
               <Link data-active={isActive("/signup")} href="/api/auth/signin">

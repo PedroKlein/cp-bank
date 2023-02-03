@@ -6,15 +6,19 @@ import "../styles/custom.scss";
 import Header from "../layouts/Header";
 import Footer from "../layouts/Footer";
 import { ThemeProvider } from "../hooks/useThemeContext";
+import { SWRConfig } from "swr";
+import { SWR_CONFIG } from "../configs/swr.config";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <SessionProvider session={pageProps.session}>
-      <ThemeProvider>
-        <Header />
-        <Component {...pageProps} />
-        <Footer />
-      </ThemeProvider>
+      <SWRConfig value={SWR_CONFIG}>
+        <ThemeProvider>
+          <Header />
+          <Component {...pageProps} />
+          <Footer />
+        </ThemeProvider>
+      </SWRConfig>
     </SessionProvider>
   );
 };

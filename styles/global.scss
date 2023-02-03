@@ -11,9 +11,15 @@
 //   }
 // }
 
-// main {
-//   padding: 2rem;
-// }
+main {
+  min-height: calc(100vh - (90px + 70px));
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 #theme-switch {
   position: relative;
