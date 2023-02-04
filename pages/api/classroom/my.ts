@@ -10,7 +10,18 @@ async function getMyClassrooms(req: NextApiRequest, res: NextApiResponse) {
 
   const classrooms = await prisma.classroom.findMany({
     where: {
-      professorId: session.user.id,
+      OR: [
+        {
+          professorId: session.user.id,
+        },
+        {
+          students: {
+            some: {
+              id: session.user.id,
+            },
+          },
+        },
+      ],
     },
     include: {
       professor: true,
@@ -21,5 +32,8 @@ async function getMyClassrooms(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default apiHandler({
-  GET: { handler: getMyClassrooms, requiredRoles: [Role.PROFESSOR] },
+  GET: {
+    handler: getMyClassrooms,
+    requiredRoles: [Role.STUDENT, Role.PROFESSOR],
+  },
 });

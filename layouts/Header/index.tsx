@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import ThemeSwitch from "../../components/ThemeSwitch";
 import Styles from "./header.module.scss";
+import { Role } from "@prisma/client";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -20,13 +21,12 @@ const Header: React.FC = () => {
               <strong>CP Bank</strong>
             </Link>
           </li>
+          <li>
+            <ThemeSwitch />
+          </li>
         </ul>
 
         <ul>
-          {/* <li>
-            <ThemeSwitch />
-          </li> */}
-
           {session ? (
             <>
               <li>
@@ -34,13 +34,22 @@ const Header: React.FC = () => {
                   My Invites
                 </Link>
               </li>
+
               <li>
                 <Link data-active={isActive("/classroom")} href="/classroom">
                   My Classrooms
                 </Link>
               </li>
+
               <li>
-                <a style={{ cursor: "pointer" }} onClick={() => signOut()}>
+                <a
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    signOut({
+                      callbackUrl: `${window.location.origin}`,
+                    })
+                  }
+                >
                   Log out
                 </a>
               </li>

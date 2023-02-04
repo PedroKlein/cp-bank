@@ -17,7 +17,8 @@ const ClassroomPage: React.FC = () => {
     }
   >(`/api/classroom/${classroomId}`);
 
-  if (!classroom) return <main aria-busy className="center" />;
+  if (status === "loading" || !classroom)
+    return <main aria-busy className="center" />;
 
   return (
     <main className="container">
@@ -38,7 +39,9 @@ const ClassroomPage: React.FC = () => {
       <small>List of students:</small>
       <ul>
         {classroom?.students.map((student) => (
-          <li key={student.name}></li>
+          <li key={student.id}>{`${student.name}${
+            student.id === session.user.id ? " (you)" : ""
+          }`}</li>
         ))}
       </ul>
       {modalOpen && (

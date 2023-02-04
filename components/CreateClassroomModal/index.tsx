@@ -39,6 +39,7 @@ const CreateClassroomModal: React.FC<Props> = ({ isOpen, onClose }) => {
           id="name"
           name="name"
           placeholder="Classroom name"
+          maxLength={100}
           ref={classroomNameRef}
           required
         />
@@ -47,6 +48,7 @@ const CreateClassroomModal: React.FC<Props> = ({ isOpen, onClose }) => {
           id="desc"
           name="desc"
           placeholder="Classroom description"
+          maxLength={300}
           ref={classroomDescRef}
           required
         />

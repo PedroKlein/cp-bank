@@ -12,7 +12,7 @@ const InvitesPage: React.FC = () => {
     (Classroom & {
       professor: User;
     })[]
-  >("/api/classroom/my");
+  >("/api/classroom/request/my");
 
   async function sendResponse(classroomId: string, hasAccepted: boolean) {
     mutate((classrooms) => classrooms.filter((u) => u.id !== classroomId), {
@@ -24,13 +24,22 @@ const InvitesPage: React.FC = () => {
     await axios.put(`/api/classroom/request/${classroomId}`, body);
   }
 
-  if (status === "loading") return <main className="center" aria-busy />;
+  if (status === "loading" || !classrooms)
+    return <main className="center" aria-busy />;
+
+  if (classrooms && classrooms.length === 0) {
+    return (
+      <main className="center">
+        <h3>{`Looks like you don't have any classroom invites`}</h3>
+      </main>
+    );
+  }
 
   return (
     <main className="container">
       <h2>My Invites</h2>
       <ul>
-        {classrooms.map((classroom) => (
+        {classrooms?.map((classroom) => (
           <li key={classroom.id} className="grid">
             <span>{`Classroom: ${classroom.name}`}</span>
             <small>{`Professor: ${classroom.professor.name}`}</small>
