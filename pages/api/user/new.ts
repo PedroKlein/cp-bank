@@ -1,26 +1,31 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import createHttpError from "http-errors";
-import { apiHandler } from "@/utils/api/api.handler";
 import { getSession } from "next-auth/react";
-import prisma from "@/lib/prisma";
+import prisma from "../../../lib/prisma";
+import { apiHandler } from "../../../utils/api/api.handler";
+import { Role } from "@prisma/client";
 
-export type PostNewUserReq = {
+export type PatchNewUserReq = {
   cfUsername: string;
-  isProfessor: boolean;
+  role: Role;
 };
 
-//TODO: Add new data in session and verify if user already has cfUsername.
-async function postNewUser(req: NextApiRequest, res: NextApiResponse) {
-  const { cfUsername, isProfessor }: PostNewUserReq = req.body;
+async function patchNewUser(req: NextApiRequest, res: NextApiResponse) {
+  const { cfUsername, role }: PatchNewUserReq = req.body;
   const session = await getSession({ req });
+
+  if (session.user.cfUsername) {
+    throw new createHttpError.BadRequest();
+  }
+
   const user = await prisma.user.update({
     where: { email: session.user.email },
-    data: { cfUsername, role: isProfessor ? "PROFESSOR" : "STUDENT" },
+    data: { cfUsername, role },
   });
 
-  res.json(user);
+  return res.json(user);
 }
 
 export default apiHandler({
-  POST: postNewUser,
+  PATCH: { handler: patchNewUser, requiredRoles: "authenticated-user" },
 });

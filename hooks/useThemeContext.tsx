@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useMemo } from "react";
 import usePersistedState from "./usePersistedState";
 
 type ThemeType = {
@@ -11,10 +11,13 @@ const ThemeContext = createContext<ThemeType>(null);
 export function ThemeProvider({ children }) {
   const [darkMode, setDarkMode] = usePersistedState<boolean>("darkmode", false);
 
+  const themeState = useMemo(
+    () => ({ darkMode, setDarkMode }),
+    [darkMode, setDarkMode]
+  );
+
   return (
-    <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={themeState}>{children}</ThemeContext.Provider>
   );
 }
 

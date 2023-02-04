@@ -61,22 +61,11 @@ model User {
 
   accounts                Account[]
   sessions                Session[]
-  professorClassrooms     Classroom[]               @relation("professor")
+  professorClassrooms     Classroom[] @relation("professor")
   classrooms              Classroom[]
-  PendingClassroomRequest PendingClassroomRequest[]
+  pendingClassroomRequest Classroom[] @relation(name: "pendingClassroomRequest")
 
   @@map(name: "users")
-}
-
-model PendingClassroomRequest {
-  classroomId String
-  userId      String
-
-  classroom Classroom @relation(fields: [classroomId], references: [id])
-  user      User      @relation(fields: [userId], references: [id])
-
-  @@id([classroomId, userId])
-  @@map(name: "pending_classroom_requests")
 }
 
 model Classroom {
@@ -88,9 +77,9 @@ model Classroom {
   updatedAt   DateTime @updatedAt @map(name: "updated_at")
   isActive    Boolean  @default(true)
 
-  professor               User                      @relation(name: "professor", fields: [professorId], references: [id], onDelete: Cascade)
+  professor               User   @relation(name: "professor", fields: [professorId], references: [id], onDelete: Cascade)
   students                User[]
-  PendingClassroomRequest PendingClassroomRequest[]
+  pendingClassroomRequest User[] @relation(name: "pendingClassroomRequest")
 
   @@unique([professorId, name])
   @@map(name: "classrooms")
