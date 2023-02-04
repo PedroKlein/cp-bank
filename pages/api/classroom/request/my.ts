@@ -18,7 +18,7 @@ async function getMyInvites(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  res.json(classrooms);
+  return res.json(classrooms);
 }
 
 export default apiHandler({

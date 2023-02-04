@@ -4,6 +4,7 @@ import { getSession } from "next-auth/react";
 import prisma from "../../../lib/prisma";
 import { apiHandler } from "../../../utils/api/api.handler";
 import { Role } from "@prisma/client";
+import { HttpStatusCode } from "axios";
 
 async function getMyClassrooms(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
@@ -28,7 +29,7 @@ async function getMyClassrooms(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  res.json(classrooms);
+  return res.json(classrooms);
 }
 
 export default apiHandler({

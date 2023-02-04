@@ -28,9 +28,9 @@ export function apiHandler(handler: ApiMethodHandlers) {
 
       checkRoles(requiredRoles, currentUser);
 
-      methodHandler(req, res);
+      return methodHandler(req, res);
     } catch (err) {
-      errorHandler(err, res);
+      return errorHandler(err, res);
     }
   };
 }

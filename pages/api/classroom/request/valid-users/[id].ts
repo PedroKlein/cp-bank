@@ -18,7 +18,7 @@ async function getValidUsers(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  res.json(users);
+  return res.json(users);
 }
 
 export default apiHandler({

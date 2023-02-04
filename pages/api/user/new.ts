@@ -23,7 +23,7 @@ async function patchNewUser(req: NextApiRequest, res: NextApiResponse) {
     data: { cfUsername, role },
   });
 
-  res.json(user);
+  return res.json(user);
 }
 
 export default apiHandler({

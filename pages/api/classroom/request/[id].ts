@@ -38,7 +38,7 @@ async function postRequestStudent(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  res.json(classroom);
+  return res.json(classroom);
 }
 
 export type PutAcceptDeclineRequestReq = {
@@ -81,7 +81,7 @@ async function putAcceptDeclineRequest(
     },
   });
 
-  res.status(HttpStatusCode.Ok);
+  return res.status(HttpStatusCode.Ok);
 }
 
 export default apiHandler({

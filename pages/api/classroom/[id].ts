@@ -20,7 +20,7 @@ async function getClassroom(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  res.json(classroom);
+  return res.json(classroom);
 }
 
 async function deleteClassroom(req: NextApiRequest, res: NextApiResponse) {
@@ -54,7 +54,7 @@ async function deleteClassroom(req: NextApiRequest, res: NextApiResponse) {
     });
   }
 
-  res.status(HttpStatusCode.Ok);
+  return res.status(HttpStatusCode.Ok);
 }
 
 export default apiHandler({

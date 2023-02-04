@@ -20,7 +20,7 @@ async function getCLassrooms(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  res.json(classrooms);
+  return res.json(classrooms);
 }
 
 export type PostCreateClassroomReq = {
@@ -35,7 +35,7 @@ async function postCreateClassroom(req: NextApiRequest, res: NextApiResponse) {
     data: { name, description, professorId: session.user.id },
   });
 
-  res.json(classroom);
+  return res.json(classroom);
 }
 
 export default apiHandler({
