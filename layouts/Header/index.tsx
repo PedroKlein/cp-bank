@@ -30,6 +30,11 @@ const Header: React.FC = () => {
           {session ? (
             <>
               <li>
+                <Link data-active={isActive("/invite")} href="/invite">
+                  My Invites
+                </Link>
+              </li>
+              <li>
                 <Link data-active={isActive("/classroom")} href="/classroom">
                   My Classrooms
                 </Link>

@@ -44,7 +44,7 @@ function checkRoles(requiredRoles: RequiredRoles, user: User) {
     return;
   }
 
-  if (requiredRoles.length === 0) return;
+  if (!requiredRoles?.length) return;
 
   if (!user || !requiredRoles.includes(user.role))
     throw new createHttpError.Unauthorized(

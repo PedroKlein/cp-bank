@@ -5,7 +5,7 @@ import prisma from "../../../lib/prisma";
 import { apiHandler } from "../../../utils/api/api.handler";
 import { Role } from "@prisma/client";
 
-//TODO: check if is a student in the classroom or its professor
+//TODO: check if is a student in the classroom or its a professor
 async function getClassroom(req: NextApiRequest, res: NextApiResponse) {
   const { id: classroomId } = req.query;
 

@@ -13,6 +13,7 @@ type Props = {
   positiveButtonLoadingText?: string;
   onClose: () => void;
   onPositive?: () => Promise<void>;
+  withoutAction?: boolean;
 };
 
 const Modal: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const Modal: React.FC<Props> = ({
   isOpen,
   positiveButtonText,
   positiveButtonLoadingText,
+  withoutAction = false,
   onClose,
   onPositive,
 }) => {
@@ -113,28 +115,30 @@ const Modal: React.FC<Props> = ({
           style={{ marginBottom: 0 }}
         ></a>
         {children}
-        <footer style={{ marginTop: 0 }}>
-          <a
-            href="#cancel"
-            role="button"
-            className="secondary"
-            onClick={closeModal}
-            // @ts-ignore
-            disabled={loading}
-          >
-            Cancel
-          </a>
-          <a
-            href="#confirm"
-            role="button"
-            aria-busy={loading}
-            onClick={handlePositive}
-          >
-            {loading
-              ? positiveButtonLoadingText || "Loading"
-              : positiveButtonText || "Confirm"}
-          </a>
-        </footer>
+        {!withoutAction && (
+          <footer style={{ marginTop: 0 }}>
+            <a
+              href="#cancel"
+              role="button"
+              className="secondary"
+              onClick={closeModal}
+              // @ts-ignore
+              disabled={loading}
+            >
+              Cancel
+            </a>
+            <a
+              href="#confirm"
+              role="button"
+              aria-busy={loading}
+              onClick={handlePositive}
+            >
+              {loading
+                ? positiveButtonLoadingText || "Loading"
+                : positiveButtonText || "Confirm"}
+            </a>
+          </footer>
+        )}
       </article>
     </dialog>
   );

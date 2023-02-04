@@ -3,23 +3,23 @@ import createHttpError from "http-errors";
 import { getSession } from "next-auth/react";
 import prisma from "../../../lib/prisma";
 import { apiHandler } from "../../../utils/api/api.handler";
-import { Role } from "@prisma/client";
 
-async function getMyClassrooms(req: NextApiRequest, res: NextApiResponse) {
+async function getUsers(req: NextApiRequest, res: NextApiResponse) {
+  const { search } = req.query;
   const session = await getSession({ req });
 
-  const classrooms = await prisma.classroom.findMany({
+  if (Array.isArray(search)) throw new createHttpError.BadRequest();
+
+  const users = await prisma.user.findMany({
     where: {
-      professorId: session.user.id,
-    },
-    include: {
-      professor: true,
+      id: { not: session.user.id },
+      name: { contains: search, mode: "insensitive" },
     },
   });
 
-  res.json(classrooms);
+  res.json(users);
 }
 
 export default apiHandler({
-  GET: { handler: getMyClassrooms, requiredRoles: [Role.PROFESSOR] },
+  GET: { handler: getUsers },
 });

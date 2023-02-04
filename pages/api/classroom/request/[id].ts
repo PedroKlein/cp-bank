@@ -5,13 +5,13 @@ import prisma from "../../../../lib/prisma";
 import { apiHandler } from "../../../../utils/api/api.handler";
 import { Role } from "@prisma/client";
 
-export type PostRequestStudentsReq = {
-  studentsId: string[];
+export type PostRequestStudentReq = {
+  studentId: string;
 };
 
-async function postRequestStudents(req: NextApiRequest, res: NextApiResponse) {
+async function postRequestStudent(req: NextApiRequest, res: NextApiResponse) {
   const { id: classroomId } = req.query;
-  const { studentsId }: PostRequestStudentsReq = req.body;
+  const { studentId }: PostRequestStudentReq = req.body;
   const session = await getSession({ req });
 
   if (Array.isArray(classroomId)) throw new createHttpError.BadRequest();
@@ -32,9 +32,7 @@ async function postRequestStudents(req: NextApiRequest, res: NextApiResponse) {
     where: { id: classroomId },
     data: {
       pendingClassroomRequest: {
-        connect: studentsId.map((studentId) => ({
-          id: studentId,
-        })),
+        connect: { id: studentId },
       },
     },
   });
@@ -69,8 +67,6 @@ async function putAcceptDeclineRequest(
     },
   });
 
-  if (classroomRequest) throw new createHttpError.BadRequest();
-
   if (!hasAccepted) return;
 
   await prisma.classroom.update({
@@ -86,7 +82,7 @@ async function putAcceptDeclineRequest(
 }
 
 export default apiHandler({
-  POST: { handler: postRequestStudents, requiredRoles: [Role.PROFESSOR] },
+  POST: { handler: postRequestStudent, requiredRoles: [Role.PROFESSOR] },
   PUT: {
     handler: putAcceptDeclineRequest,
     requiredRoles: [Role.STUDENT, Role.PROFESSOR],

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
-import AddStudentsModal from "../../components/AddStudentsModal";
+import InviteStudentsModal from "../../components/InviteStudentsModal";
 
 const ClassroomPage: React.FC = () => {
   const router = useRouter();
@@ -17,6 +17,8 @@ const ClassroomPage: React.FC = () => {
     }
   >(`/api/classroom/${classroomId}`);
 
+  if (!classroom) return <main aria-busy className="center" />;
+
   return (
     <main className="container">
       <hgroup>
@@ -29,8 +31,8 @@ const ClassroomPage: React.FC = () => {
         {classroom?.description}
       </p>
 
-      {session?.user?.id === classroom.professorId && (
-        <button onClick={() => setModalOpen(true)}>Add Students</button>
+      {session?.user?.id === classroom?.professorId && (
+        <button onClick={() => setModalOpen(true)}>Invite Students</button>
       )}
 
       <small>List of students:</small>
@@ -39,10 +41,13 @@ const ClassroomPage: React.FC = () => {
           <li key={student.name}></li>
         ))}
       </ul>
-      <AddStudentsModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-      />
+      {modalOpen && (
+        <InviteStudentsModal
+          classroomId={classroom.id}
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+        />
+      )}
     </main>
   );
 };
