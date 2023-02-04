@@ -4,6 +4,7 @@ import { getSession } from "next-auth/react";
 import prisma from "../../../../lib/prisma";
 import { apiHandler } from "../../../../utils/api/api.handler";
 import { Role } from "@prisma/client";
+import { HttpStatusCode } from "axios";
 
 export type PostRequestStudentReq = {
   studentId: string;
@@ -79,6 +80,8 @@ async function putAcceptDeclineRequest(
       },
     },
   });
+
+  res.status(HttpStatusCode.Ok);
 }
 
 export default apiHandler({

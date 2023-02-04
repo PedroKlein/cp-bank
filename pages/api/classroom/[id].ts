@@ -4,6 +4,7 @@ import { getSession } from "next-auth/react";
 import prisma from "../../../lib/prisma";
 import { apiHandler } from "../../../utils/api/api.handler";
 import { Role } from "@prisma/client";
+import { HttpStatusCode } from "axios";
 
 //TODO: check if is a student in the classroom or its a professor
 async function getClassroom(req: NextApiRequest, res: NextApiResponse) {
@@ -52,6 +53,8 @@ async function deleteClassroom(req: NextApiRequest, res: NextApiResponse) {
       },
     });
   }
+
+  res.status(HttpStatusCode.Ok);
 }
 
 export default apiHandler({
