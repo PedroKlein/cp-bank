@@ -7,9 +7,11 @@ const ThemeSwitch: React.FC = () => {
   const switchTheme = () => setDarkMode((prev) => !prev);
 
   useEffect(() => {
-    darkMode
-      ? document.documentElement.setAttribute("data-theme", "light")
-      : document.documentElement.removeAttribute("data-theme");
+    document.documentElement.removeAttribute("data-theme");
+    document.documentElement.setAttribute(
+      "data-theme",
+      darkMode ? "light" : "dark"
+    );
   }, [darkMode]);
 
   return (

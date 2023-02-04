@@ -88,13 +88,13 @@ main {
 #theme-switch:hover .switch-thumb {
   box-shadow: 0 0 2px 3px var(--bs-primary);
 }
-[data-theme] #theme-switch .switch-check {
+[data-theme="light"] #theme-switch .switch-check {
   opacity: 1;
 }
-[data-theme] #theme-switch .switch-x {
+[data-theme="light"] #theme-switch .switch-x {
   opacity: 0;
 }
-[data-theme] #theme-switch .switch-thumb {
+[data-theme="light"] #theme-switch .switch-thumb {
   left: 31px;
 }
 // [data-theme] #theme-switch .switch-track {
