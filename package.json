@@ -13,6 +13,13 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@emotion/cache": "^11.10.5",
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.9",
     "@next-auth/prisma-adapter": "1.0.5",
     "@next/font": "^13.1.6",
     "@picocss/pico": "^1.5.7",

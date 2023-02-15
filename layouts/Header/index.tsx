@@ -22,7 +22,7 @@ const Header: React.FC = () => {
             </Link>
           </li>
           <li>
-            <ThemeSwitch />
+            {/* <ThemeSwitch /> */}
           </li>
         </ul>
 
