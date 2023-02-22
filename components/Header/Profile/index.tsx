@@ -16,7 +16,9 @@ const Profile = () => {
         onClick={toggleDropdown}
         whileTap={{ scale: 0.95 }}
       >
-        <span className="ml-2 font-medium pr-2">{session?.user?.name}</span>
+        <span className="ml-2 font-medium pr-2 text-white">
+          {session?.user?.name}
+        </span>
         <img
           className="w-12 h-12 rounded-full mx-auto"
           src={session?.user?.image}

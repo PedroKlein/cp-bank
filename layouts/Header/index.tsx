@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FaBars } from "react-icons/fa";
 import Link from "next/link";
+import Notification from "../../components/Header/Notification";
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -18,7 +19,8 @@ const Header: React.FC = () => {
   );
 
   const authenticatedOptions = (
-    <div className="hidden sm:ml-6 sm:flex sm:items-center">
+    <div className="hidden sm:ml-6 sm:flex sm:items-center gap-1">
+      <Notification />
       <Profile />
     </div>
   );
@@ -26,8 +28,8 @@ const Header: React.FC = () => {
     <header className="bg-gray-800">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex-shrink-0 flex items-center">
-            <h1>CP Bank</h1>
+          <div className="flex-shrink-0 flex items-center text-white font-bold text-lg">
+            <span>CP Bank</span>
           </div>
           {status === "unauthenticated"
             ? unauthenticatedOptions
