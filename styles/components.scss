@@ -1,0 +1,12 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+main {
+  @apply flex justify-center items-center bg-primary text-primary;
+  min-height: calc(100vh - 64px - 48px);
+}
+
+.primary-button {
+  @apply rounded-full bg-gray-900 text-center py-2 px-4 text-primary;
+}

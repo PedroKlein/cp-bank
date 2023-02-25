@@ -33,7 +33,7 @@ const Notification: React.FC = () => {
   return (
     <div className="relative inline-block">
       <button
-        className="flex items-center justify-center rounded-full text-white"
+        className="flex items-center justify-center rounded-full text-primary"
         onClick={() => setIsOpen(!isOpen)}
       >
         <FiBell size={22} />
@@ -45,7 +45,7 @@ const Notification: React.FC = () => {
       </button>
       {isOpen && (
         <motion.div
-          className="absolute right-0 w-64 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-200 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          className="absolute right-0 w-64 mt-2 origin-top-right bg-primary border border-gray-200 divide-y divide-gray-200 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}

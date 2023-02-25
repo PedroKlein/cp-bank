@@ -12,7 +12,7 @@ const Home: React.FC = () => {
 
   if (status === "unauthenticated") {
     return (
-      <main className="flex-1 bg-gray-100">
+      <main className="flex-1 bg-primary text-primary">
         <section>
           <hgroup>
             <h2>{`Welcome to CP Bank!`}</h2>
@@ -28,13 +28,13 @@ const Home: React.FC = () => {
   }
 
   return (
-    <main className="h-full flex justify-center items-center">
-      <section>
-        <hgroup>
-          <h2>{`Welcome ${session.user.name} ${getRandomEmoji()}`}</h2>
-          <h3>Enjoy CP Bank </h3>
-        </hgroup>
-      </section>
+    <main>
+      <hgroup>
+        <h2 className="text-primary text-3xl">{`Welcome ${
+          session.user.name
+        } ${getRandomEmoji()}`}</h2>
+        <h3 className="text-secondary">Enjoy CP Bank </h3>
+      </hgroup>
     </main>
   );
 };

@@ -1,37 +1,35 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { motion } from "framer-motion";
+import { FiMoon, FiSun } from "react-icons/fi";
 
 const ThemeSwitch: React.FC = () => {
   const { darkMode, setDarkMode } = useThemeContext();
 
-  const switchTheme = () => setDarkMode((prev) => !prev);
-
-  useEffect(() => {
-    document.documentElement.removeAttribute("data-theme");
-    document.documentElement.setAttribute(
-      "data-theme",
-      darkMode ? "light" : "dark"
-    );
-  }, [darkMode]);
+  function switchTheme() {
+    setDarkMode((prev) => !prev);
+    if (darkMode) document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", "dark");
+  }
 
   return (
-    <div id="theme-switch" className="container">
-      <div className="switch-track">
-        <div className="switch-check">
-          <span className="switch-icon">🌙</span>
-        </div>
-        <div className="switch-x">
-          <span className="switch-icon">🌞</span>
-        </div>
-        <div className="switch-thumb"></div>
-      </div>
-
-      <input
-        type="checkbox"
-        checked={darkMode}
-        onChange={switchTheme}
-        aria-label="Switch between dark and light mode"
-      />
+    <div
+      className="fixed bottom-10 right-0 m-6 z-50"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <motion.button
+        className="w-12 h-12 bg-gray-200 shadow-sm rounded-full flex justify-center items-center focus:outline-none"
+        onClick={switchTheme}
+        animate={{
+          backgroundColor: !darkMode ? "#f3f4f6" : "#1f2937",
+        }}
+      >
+        {!darkMode ? (
+          <FiSun className="text-yellow-500 w-6 h-6" />
+        ) : (
+          <FiMoon className="text-gray-200 w-6 h-6" />
+        )}
+      </motion.button>
     </div>
   );
 };

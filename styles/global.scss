@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+* {
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+@layer base {
+  :root {
+    --bg-primary: 255, 255, 255;
+    --bg-secondary: 245, 246, 247;
+    --bg-tertiary: 238, 238, 238;
+
+    --text-primary: 18, 18, 18;
+    --text-secondary: 209, 213, 219
+    --text-tertiary: 255, 255, 255;
+  }
+
+  html[data-theme="dark"] {
+    --bg-primary: 27, 36, 48;
+    --bg-secondary: 81, 85, 126;
+    --bg-tertiary: 129, 103, 151;
+
+    --text-primary: 255, 255, 255;
+    --text-secondary: 209, 213, 219;
+    --text-tertiary: 18, 18, 18;
+  }
+}
