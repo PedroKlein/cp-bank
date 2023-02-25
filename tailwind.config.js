@@ -8,15 +8,13 @@ const generateColorClass = (variable) => {
 };
 
 const textColor = {
-  primary: generateColorClass("text-primary"),
-  secondary: generateColorClass("text-secondary"),
-  tertiary: generateColorClass("text-tertiary"),
+  default: generateColorClass("text-default"),
+  neutral: generateColorClass("text-neutral"),
 };
 
 const backgroundColor = {
-  primary: generateColorClass("bg-primary"),
-  secondary: generateColorClass("bg-secondary"),
-  tertiary: generateColorClass("bg-tertiary"),
+  default: generateColorClass("bg-default"),
+  neutral: generateColorClass("bg-neutral"),
 };
 
 module.exports = {
@@ -29,6 +27,11 @@ module.exports = {
     extend: {
       textColor,
       backgroundColor,
+      colors: {
+        primary: generateColorClass("primary-color"),
+        secondary: generateColorClass("secondary-color"),
+        tertiary: generateColorClass("tertiary-color"),
+      },
     },
   },
   darkMode: ["class", '[data-theme="dark"]'],

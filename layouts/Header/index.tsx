@@ -11,7 +11,7 @@ const Header: React.FC = () => {
 
   const unauthenticatedOptions = (
     <div className="hidden sm:ml-6 sm:flex sm:items-center">
-      <button className="text-primary hover:text-secondary px-3 py-2 rounded-md text-sm font-medium">
+      <button className="text-default hover:text-secondary px-3 py-2 rounded-md text-sm font-medium">
         <Link href="/api/auth/signin">Log in</Link>
       </button>
     </div>
@@ -24,11 +24,13 @@ const Header: React.FC = () => {
     </div>
   );
   return (
-    <header className="bg-tertiary">
+    <header className="bg-primary">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center font-bold text-lg">
-            <span className="text-primary">CP Bank</span>
+            <Link href="/" className="text-secondary">
+              CP Bank
+            </Link>
           </div>
           {status === "unauthenticated"
             ? unauthenticatedOptions
