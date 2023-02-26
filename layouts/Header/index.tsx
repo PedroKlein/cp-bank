@@ -18,7 +18,7 @@ const Header: React.FC = () => {
   );
 
   const authenticatedOptions = (
-    <div className="hidden sm:ml-6 sm:flex sm:items-center gap-1">
+    <div className="hidden sm:ml-6 sm:flex sm:items-center gap-4">
       <Notification />
       <Profile />
     </div>

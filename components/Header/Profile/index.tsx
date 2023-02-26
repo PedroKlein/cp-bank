@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import getNameInitials from "../../../utils/nameInitials.utils";
 
 const Profile = () => {
   const { data: session, status } = useSession();
@@ -19,10 +20,14 @@ const Profile = () => {
         <span className="ml-2 font-medium pr-2 text-default">
           {session?.user?.name}
         </span>
-        <img
-          className="w-12 h-12 rounded-full mx-auto"
-          src={session?.user?.image}
-        />
+        {session?.user?.image ? (
+          <img
+            className="w-12 h-12 rounded-full mx-auto"
+            src={session?.user?.image}
+          />
+        ) : (
+          <span>{getNameInitials(session.user.name)}</span>
+        )}
       </motion.button>
       <AnimatePresence>
         {isOpen && (
