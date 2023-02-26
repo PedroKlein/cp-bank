@@ -32,7 +32,7 @@ const Header: React.FC = () => {
               CP Bank
             </Link>
           </div>
-          {status === "unauthenticated"
+          {status !== "authenticated"
             ? unauthenticatedOptions
             : authenticatedOptions}
         </div>

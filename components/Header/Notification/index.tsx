@@ -55,10 +55,10 @@ const Notification: React.FC = () => {
             {invites?.length > 0 ? (
               invites.map((invite) => (
                 <div key={invite.id} className="px-4 py-3">
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-bold text-default">
                     Classroom: {invite.name}
                   </p>
-                  <p className="text-sm text-secondary">
+                  <p className="text-sm text-default">
                     Professor: {invite.professor.name}
                   </p>
                   <div className="mt-2 flex justify-end space-x-2">

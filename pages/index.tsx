@@ -12,17 +12,19 @@ const Home: React.FC = () => {
 
   if (status === "unauthenticated") {
     return (
-      <main className="flex-1 bg-primary text-default">
-        <section>
-          <hgroup>
-            <h2>{`Welcome to CP Bank!`}</h2>
-            <h3>Please login</h3>
-          </hgroup>
+      <main className="flex-1 bg-default text-default">
+        <hgroup>
+          <h2 className="text-3xl">{`Welcome to CP Bank!`}</h2>
+          <h3>Please login</h3>
+        </hgroup>
 
-          <Link href="/api/auth/signin" role="button">
-            Log in
-          </Link>
-        </section>
+        <Link
+          href="/api/auth/signin"
+          className="bg-primary p-4 mt-1 rounded-lg text-secondary hover:scale-110 transition-all"
+          role="button"
+        >
+          Log in
+        </Link>
       </main>
     );
   }

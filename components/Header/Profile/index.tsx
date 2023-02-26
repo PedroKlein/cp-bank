@@ -27,7 +27,7 @@ const Profile = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="absolute right-0 mt-1 py-2 w-48 bg-neutral rounded-md shadow-xl z-20 divide-y divide-gray-100 dark:divide-gray-600"
+            className="absolute right-0 mt-1 py-2 w-48 bg-neutral rounded-md shadow-xl z-20 divide-y divide-gray-300 dark:divide-gray-600"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
