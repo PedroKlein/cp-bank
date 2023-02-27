@@ -27,9 +27,9 @@ const CreateClassroomModal: React.FC<Props> = ({ isOpen, onClose }) => {
     <Modal
       onClose={onClose}
       isOpen={isOpen}
-      onPositive={handleSubmit}
-      positiveButtonText="Create Classroom"
-      positiveButtonLoadingText="Creating Classroom..."
+      // onPositive={handleSubmit}
+      // positiveButtonText="Create Classroom"
+      // positiveButtonLoadingText="Creating Classroom..."
     >
       <h3>Create your classroom!</h3>
       <form onSubmit={(e) => e.preventDefault()} style={{ marginBottom: 0 }}>

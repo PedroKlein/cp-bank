@@ -1,146 +1,51 @@
-import React, { useEffect, useRef } from "react";
-import { useState } from "react";
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const isOpenClass = "modal-is-open";
-const openingClass = "modal-is-opening";
-const closingClass = "modal-is-closing";
-const animationDuration = 400;
-
-type Props = {
-  children?: React.ReactNode;
+interface ModalProps {
   isOpen: boolean;
-  positiveButtonText?: string;
-  positiveButtonLoadingText?: string;
+  children: React.ReactNode | React.ReactNode[];
   onClose: () => void;
-  onPositive?: () => Promise<void>;
-  withoutAction?: boolean;
-};
+}
 
-const Modal: React.FC<Props> = ({
-  children,
-  isOpen,
-  positiveButtonText,
-  positiveButtonLoadingText,
-  withoutAction = false,
-  onClose,
-  onPositive,
-}) => {
-  const modalRef = useRef<HTMLDialogElement>(null);
-  const [loading, setLoading] = useState(false);
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+  const backdropVariants = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+  };
 
-  useEffect(() => {
-    if (!isOpen) return;
-    function closeOnESC(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        closeModal();
-      }
-    }
-    document.addEventListener("keydown", closeOnESC);
-    return () => {
-      document.removeEventListener("keydown", closeOnESC);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!modalRef) return;
-    if (isOpen) {
-      if (isScrollbarVisible()) {
-        document.documentElement.style.setProperty(
-          "--scrollbar-width",
-          `${getScrollbarWidth()}px`
-        );
-      }
-      document.documentElement.classList.add(isOpenClass, openingClass);
-      setTimeout(() => {
-        document.documentElement.classList.remove(openingClass);
-      }, animationDuration);
-      modalRef.current.setAttribute("open", "true");
-    }
-  }, [isOpen, modalRef]);
-
-  function closeModal() {
-    if (loading) return;
-    document.documentElement.classList.add(closingClass);
-    setTimeout(() => {
-      document.documentElement.classList.remove(closingClass, isOpenClass);
-      document.documentElement.style.removeProperty("--scrollbar-width");
-      modalRef.current.removeAttribute("open");
-      onClose();
-    }, animationDuration);
-  }
-
-  function getScrollbarWidth() {
-    // Creating invisible container
-    const outer = document.createElement("div");
-    outer.style.visibility = "hidden";
-    outer.style.overflow = "scroll";
-    document.body.appendChild(outer);
-
-    // Creating inner element and placing it in the container
-    const inner = document.createElement("div");
-    outer.appendChild(inner);
-
-    // Calculating difference between container's full width and the child width
-    const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-
-    // Removing temporary elements from the DOM
-    outer.parentNode.removeChild(outer);
-
-    return scrollbarWidth;
-  }
-
-  function isScrollbarVisible() {
-    return document.body.scrollHeight > screen.height;
-  }
-
-  async function handlePositive() {
-    setLoading(true);
-    if (onPositive) {
-      await onPositive();
-    }
-    setLoading(false);
-    closeModal();
-  }
-
-  if (!isOpen) return;
+  const modalVariants = {
+    hidden: { y: "-100vh", opacity: 0 },
+    visible: {
+      y: "0",
+      opacity: 1,
+      transition: { duration: 0.3, ease: "easeInOut" },
+    },
+  };
 
   return (
-    <dialog id="modal-example" ref={modalRef} onClick={closeModal}>
-      <article onClick={(e) => e.stopPropagation()}>
-        <a
-          href="#close"
-          aria-label="Close"
-          className="close"
-          onClick={closeModal}
-          style={{ marginBottom: 0 }}
-        ></a>
-        {children}
-        {!withoutAction && (
-          <footer style={{ marginTop: 0 }}>
-            <a
-              href="#cancel"
-              role="button"
-              className="secondary"
-              onClick={closeModal}
-              // @ts-ignore
-              disabled={loading}
-            >
-              Cancel
-            </a>
-            <a
-              href="#confirm"
-              role="button"
-              aria-busy={loading}
-              onClick={handlePositive}
-            >
-              {loading
-                ? positiveButtonLoadingText || "Loading"
-                : positiveButtonText || "Confirm"}
-            </a>
-          </footer>
-        )}
-      </article>
-    </dialog>
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"
+            variants={backdropVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            onClick={onClose}
+          />
+          <motion.div
+            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 bg-white rounded-md shadow-lg z-50 p-6"
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+          >
+            {children}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 };
 

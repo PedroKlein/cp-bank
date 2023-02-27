@@ -1,15 +1,22 @@
-import React from "react";
-import { useThemeContext } from "../../hooks/useThemeContext";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiMoon, FiSun } from "react-icons/fi";
+import { useTheme } from "next-themes";
 
 const ThemeSwitch: React.FC = () => {
-  const { darkMode, setDarkMode } = useThemeContext();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   function switchTheme() {
-    setDarkMode((prev) => !prev);
-    if (darkMode) document.documentElement.removeAttribute("data-theme");
-    else document.documentElement.setAttribute("data-theme", "dark");
+    setTheme(theme === "light" ? "dark" : "light");
+  }
+
+  if (!mounted) {
+    return null;
   }
 
   return (
@@ -18,13 +25,13 @@ const ThemeSwitch: React.FC = () => {
       onClick={(e) => e.stopPropagation()}
     >
       <motion.button
-        className="w-12 h-12 bg-gray-200 shadow-sm rounded-full flex justify-center items-center focus:outline-none"
+        className="w-12 h-12 bg-[#ececec] shadow-lg rounded-full flex justify-center items-center focus:outline-none"
         onClick={switchTheme}
         animate={{
-          backgroundColor: !darkMode ? "#f3f4f6" : "#1f2937",
+          backgroundColor: theme === "light" ? "#ececec" : "#1f2937",
         }}
       >
-        {!darkMode ? (
+        {theme === "light" ? (
           <FiSun className="text-yellow-500 w-6 h-6" />
         ) : (
           <FiMoon className="text-gray-200 w-6 h-6" />

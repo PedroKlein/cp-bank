@@ -33,7 +33,7 @@ const InviteStudentsModal: React.FC<Props> = ({
   }
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} withoutAction={true}>
+    <Modal onClose={onClose} isOpen={isOpen}>
       <h3>Invite Students</h3>
       <form onSubmit={(e) => e.preventDefault()} style={{ marginBottom: 0 }}>
         <input

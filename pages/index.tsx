@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import CreateClassroomModal from "../components/CreateClassroomModal/index";
+import React from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import getRandomEmoji from "../utils/randomEmoji.utils";
 
 const Home: React.FC = () => {
-  const [modalOpen, setModalOpen] = useState(false);
   const { data: session, status } = useSession();
 
   if (status === "loading") return <main className="center" aria-busy />;
