@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import getNameInitials from "../../utils/nameInitials.utils";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
+import { useCallback } from "react";
 
 const Profile = () => {
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const containerRef = useRef(null);
+  const closeDropDown = useCallback(() => setIsOpen(false), [setIsOpen]);
+  useOnClickOutside(containerRef, closeDropDown);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={containerRef}>
       <motion.button
         className="flex items-center focus:outline-none"
         onClick={toggleDropdown}

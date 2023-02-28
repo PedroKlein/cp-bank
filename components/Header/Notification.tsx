@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { FiBell } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 import { Classroom, User } from "@prisma/client";
 import { PutAcceptDeclineRequestReq } from "../../pages/api/classroom/request/[id]";
 import axios from "axios";
 import useSWR from "swr";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
 interface Notification {
   id: number;
@@ -19,6 +20,9 @@ const Notification: React.FC = () => {
       professor: User;
     })[]
   >("/api/classroom/request/my");
+  const containerRef = useRef(null);
+  const closeDropDown = useCallback(() => setIsOpen(false), [setIsOpen]);
+  useOnClickOutside(containerRef, closeDropDown);
 
   async function sendResponse(classroomId: string, hasAccepted: boolean) {
     mutate((classrooms) => classrooms.filter((u) => u.id !== classroomId), {
@@ -31,7 +35,7 @@ const Notification: React.FC = () => {
   }
 
   return (
-    <div className="relative inline-block">
+    <div className="relative inline-block" ref={containerRef}>
       <button
         className="flex items-center justify-center rounded-full text-default"
         onClick={() => setIsOpen(!isOpen)}
