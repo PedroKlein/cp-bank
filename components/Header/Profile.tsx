@@ -2,14 +2,13 @@ import React, { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import getNameInitials from "../../utils/nameInitials.utils";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import { useCallback } from "react";
+import AvatarIcon from "../Generic/AvatarIcon";
 
 const Profile = () => {
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
-  const [imageError, setImageError] = useState(false);
   const containerRef = useRef(null);
   const closeDropDown = useCallback(() => setIsOpen(false), [setIsOpen]);
   useOnClickOutside(containerRef, closeDropDown);
@@ -26,17 +25,11 @@ const Profile = () => {
         <span className="ml-2 font-medium pr-2 text-default">
           {session?.user?.name}
         </span>
-        {session?.user?.image && !imageError ? (
-          <img
-            onError={() => setImageError(true)}
-            className="w-12 h-12 rounded-full mx-auto"
-            src={session?.user?.image}
-          />
-        ) : (
-          <div className="bg-neutral w-12 h-12 rounded-full flex justify-center items-center text-default text-xl">
-            <span>{getNameInitials(session?.user?.name)}</span>
-          </div>
-        )}
+        <AvatarIcon
+          className="w-12 h-12"
+          imageUrl={session?.user?.image}
+          userName={session?.user?.name}
+        />
       </motion.button>
       <AnimatePresence>
         {isOpen && (

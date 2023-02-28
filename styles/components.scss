@@ -2,11 +2,27 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+html {
+  @apply text-default bg-default;
+}
+
 main {
-  @apply flex justify-center items-center bg-default text-default flex-col;
+  @apply flex flex-col py-4 max-w-7xl mx-auto;
   min-height: calc(100vh - 64px - 48px);
 }
 
+h1 {
+  @apply text-default text-4xl;
+}
+
+h2 {
+  @apply text-default text-2xl;
+}
+
+h3 {
+  @apply text-default text-xl;
+}
+
 .primary-button {
-  @apply rounded-full bg-gray-900 text-center py-2 px-4 text-default;
+  @apply rounded-full bg-primary text-center py-2 px-4 text-default w-max;
 }

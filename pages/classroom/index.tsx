@@ -1,47 +1,61 @@
-import { Classroom, Role } from "@prisma/client";
+import { Classroom, Role, User } from "@prisma/client";
 import Link from "next/link";
 import React, { useState } from "react";
 import useSWR from "swr";
 import CreateClassroomModal from "../../components/Modal/CreateClassroomModal";
 import { useSession } from "next-auth/react";
+import ClassroomItem from "../../components/Classroom/ClassroomItem";
 
 const Classroom: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const { data: classrooms } = useSWR<Classroom[]>("/api/classroom/my");
+  const { data: classrooms } = useSWR<
+    (Classroom & {
+      professor: User;
+    })[]
+  >("/api/classroom/my");
   const { data: session, status } = useSession();
 
-  if (status === "loading" || !classrooms)
-    return <main className="center" aria-busy />;
+  if (status === "loading" || !classrooms) return <main aria-busy />;
 
   if (classrooms && classrooms.length === 0) {
     return (
-      <main className="center">
+      <main>
         <hgroup>
-          <h3>{`You aren't in any classroom yet!`}</h3>
-          <h4>
+          <h2>{`You aren't in any classroom yet!`}</h2>
+          <h3>
             {`Plese check your `} <Link href={"/invite"}>invites</Link>
-          </h4>
+          </h3>
         </hgroup>
       </main>
     );
   }
 
   return (
-    <main className="container">
-      {session.user.role === Role.PROFESSOR && (
-        <button className="contrast" onClick={() => setModalOpen(true)}>
-          Create classroom
-        </button>
-      )}
+    <main>
+      <section className="flex flex-col gap-4">
+        <div className="flex justify-between">
+          <h1>My classrooms</h1>
+          {session.user.role === Role.PROFESSOR && (
+            <button
+              className="primary-button"
+              onClick={() => setModalOpen(true)}
+            >
+              Create classroom
+            </button>
+          )}
+        </div>
 
-      <h2>My classrooms</h2>
-      <ul>
-        {classrooms?.map((classroom) => (
-          <li key={classroom.id}>
-            <Link href={`/classroom/${classroom.id}`}>{classroom.name}</Link>
-          </li>
-        ))}
-      </ul>
+        <ul className="flex flex-col gap-2">
+          {classrooms?.map((classroom) => (
+            <ClassroomItem
+              key={classroom.id}
+              classroom={classroom}
+              isMy={classroom.professorId === session.user.id}
+            />
+          ))}
+        </ul>
+      </section>
+
       {modalOpen && (
         <CreateClassroomModal
           isOpen={modalOpen}

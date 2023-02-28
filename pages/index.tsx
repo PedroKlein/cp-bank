@@ -10,11 +10,11 @@ const Home: React.FC = () => {
 
   if (status === "unauthenticated") {
     return (
-      <main>
-        <hgroup>
-          <h2 className="text-default text-3xl">{`Welcome to CP Bank!`}</h2>
+      <main className="justify-center items-center">
+        <section>
+          <h1>{`Welcome to CP Bank!`}</h1>
           <h3 className="text-primary">Please login</h3>
-        </hgroup>
+        </section>
 
         <Link
           href="/api/auth/signin"
@@ -28,13 +28,11 @@ const Home: React.FC = () => {
   }
 
   return (
-    <main>
-      <hgroup>
-        <h2 className="text-default text-3xl">{`Welcome ${
-          session.user.name
-        } ${getRandomEmoji()}`}</h2>
+    <main className="justify-center items-center">
+      <section>
+        <h1>{`Welcome ${session.user.name} ${getRandomEmoji()}`}</h1>
         <h3 className="text-primary">Enjoy CP Bank </h3>
-      </hgroup>
+      </section>
     </main>
   );
 };
