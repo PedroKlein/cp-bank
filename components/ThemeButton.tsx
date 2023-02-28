@@ -25,7 +25,7 @@ const ThemeButton: React.FC = () => {
       onClick={(e) => e.stopPropagation()}
     >
       <motion.button
-        className="w-12 h-12 bg-[#ececec] shadow-lg rounded-full flex justify-center items-center focus:outline-none"
+        className="w-16 h-16 bg-[#ececec] shadow-lg rounded-full flex justify-center items-center focus:outline-none"
         onClick={switchTheme}
         animate={{
           backgroundColor: theme === "light" ? "#ececec" : "#1f2937",

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
 interface ModalProps {
   isOpen: boolean;
@@ -8,18 +9,18 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+  const containerRef = useRef(null);
+  useOnClickOutside(containerRef, onClose);
+
   const backdropVariants = {
-    visible: { opacity: 1 },
+    visible: { opacity: 0.7 },
     hidden: { opacity: 0 },
   };
 
   const modalVariants = {
-    hidden: { y: "-100vh", opacity: 0 },
-    visible: {
-      y: "0",
-      opacity: 1,
-      transition: { duration: 0.3, ease: "easeInOut" },
-    },
+    hidden: { opacity: 0, y: "-50%" },
+    visible: { opacity: 1, y: "0%" },
+    exit: { opacity: 0, y: "-50%" },
   };
 
   return (
@@ -27,22 +28,40 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       {isOpen && (
         <>
           <motion.div
-            className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"
+            className="fixed top-0 left-0 w-full h-full bg-black z-50"
             variants={backdropVariants}
-            initial="hidden"
             animate="visible"
+            initial="hidden"
             exit="hidden"
-            onClick={onClose}
           />
-          <motion.div
-            className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 bg-white rounded-md shadow-lg z-50 p-6"
-            variants={modalVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
+          <div
+            className="fixed top-0 left-0 w-full h-full transparent flex items-center justify-center z-50"
+            onClick={() => onClose()}
           >
-            {children}
-          </motion.div>
+            <motion.div
+              className="bg-white rounded-lg p-4 max-w-sm w-full mx-4"
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="absolute top-0 right-0 p-2" onClick={onClose}>
+                <svg
+                  className="h-6 w-6 text-gray-700"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              {children}
+            </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>

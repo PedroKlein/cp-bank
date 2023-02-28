@@ -18,14 +18,14 @@ const Header: React.FC = () => {
   );
 
   const authenticatedOptions = (
-    <div className="hidden sm:ml-6 sm:flex sm:items-center gap-4">
+    <div className="ml-6 flex items-center gap-4">
       <Notification />
       <Profile />
     </div>
   );
   return (
     <header className="bg-primary">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex-shrink-0 flex items-center font-bold text-lg">
             <Link href="/" className="text-secondary">

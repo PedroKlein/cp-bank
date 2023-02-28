@@ -4,10 +4,13 @@
 
 html {
   @apply text-default bg-default;
+  @media (max-width: 425px) {
+    font-size: 80%;
+  }
 }
 
 main {
-  @apply flex flex-col py-4 max-w-7xl mx-auto;
+  @apply flex flex-col p-4 mx-auto xl:max-w-7xl;
   min-height: calc(100vh - 64px - 48px);
 }
 
