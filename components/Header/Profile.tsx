@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import getNameInitials from "../../../utils/nameInitials.utils";
+import getNameInitials from "../../utils/nameInitials.utils";
 
 const Profile = () => {
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -20,13 +21,16 @@ const Profile = () => {
         <span className="ml-2 font-medium pr-2 text-default">
           {session?.user?.name}
         </span>
-        {session?.user?.image ? (
+        {session?.user?.image && !imageError ? (
           <img
+            onError={() => setImageError(true)}
             className="w-12 h-12 rounded-full mx-auto"
             src={session?.user?.image}
           />
         ) : (
-          <span>{getNameInitials(session.user.name)}</span>
+          <div className="bg-neutral w-12 h-12 rounded-full flex justify-center items-center text-default text-xl">
+            <span>{getNameInitials(session?.user?.name)}</span>
+          </div>
         )}
       </motion.button>
       <AnimatePresence>

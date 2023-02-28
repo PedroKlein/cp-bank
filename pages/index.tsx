@@ -10,10 +10,10 @@ const Home: React.FC = () => {
 
   if (status === "unauthenticated") {
     return (
-      <main className="flex-1 bg-default text-default">
+      <main>
         <hgroup>
-          <h2 className="text-3xl">{`Welcome to CP Bank!`}</h2>
-          <h3>Please login</h3>
+          <h2 className="text-default text-3xl">{`Welcome to CP Bank!`}</h2>
+          <h3 className="text-primary">Please login</h3>
         </hgroup>
 
         <Link

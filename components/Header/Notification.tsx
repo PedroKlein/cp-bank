@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FiBell } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 import { Classroom, User } from "@prisma/client";
-import { PutAcceptDeclineRequestReq } from "../../../pages/api/classroom/request/[id]";
+import { PutAcceptDeclineRequestReq } from "../../pages/api/classroom/request/[id]";
 import axios from "axios";
 import useSWR from "swr";
 

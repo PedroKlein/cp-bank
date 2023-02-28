@@ -7,7 +7,7 @@ import Footer from "../layouts/Footer";
 import { SWRConfig } from "swr";
 import { SWR_CONFIG } from "../configs/swr.config";
 import { ThemeProvider } from "next-themes";
-import ThemeSwitch from "../components/ThemeSwitch";
+import ThemeButton from "../components/ThemeButton";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -16,7 +16,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <ThemeProvider>
           <Header />
           <Component {...pageProps} />
-          <ThemeSwitch />
+          <ThemeButton />
           <Footer />
         </ThemeProvider>
       </SWRConfig>

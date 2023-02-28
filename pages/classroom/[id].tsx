@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
-import InviteStudentsModal from "../../components/InviteStudentsModal";
+import InviteStudentsModal from "../../components/Modal/InviteStudentsModal";
 
 const ClassroomPage: React.FC = () => {
   const router = useRouter();

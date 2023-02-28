@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { useTheme } from "next-themes";
 
-const ThemeSwitch: React.FC = () => {
+const ThemeButton: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -41,4 +41,4 @@ const ThemeSwitch: React.FC = () => {
   );
 };
 
-export default ThemeSwitch;
+export default ThemeButton;

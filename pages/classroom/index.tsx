@@ -2,7 +2,7 @@ import { Classroom, Role } from "@prisma/client";
 import Link from "next/link";
 import React, { useState } from "react";
 import useSWR from "swr";
-import CreateClassroomModal from "../../components/CreateClassroomModal";
+import CreateClassroomModal from "../../components/Modal/CreateClassroomModal";
 import { useSession } from "next-auth/react";
 
 const Classroom: React.FC = () => {
