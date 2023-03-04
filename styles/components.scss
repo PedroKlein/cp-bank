@@ -10,8 +10,9 @@ html {
 }
 
 main {
-  @apply flex flex-col p-4 mx-auto xl:max-w-7xl;
-  min-height: calc(100vh - 64px - 48px);
+  @apply flex flex-col p-4 mx-auto xl:max-w-7xl overflow-auto;
+  height: calc(100vh - 64px - 48px);
+  // margin-bottom: 48px;
 }
 
 h1 {
@@ -26,6 +27,19 @@ h3 {
   @apply text-default text-xl;
 }
 
-.primary-button {
-  @apply rounded-full bg-primary text-center py-2 px-4 text-default w-max;
+input,
+textarea {
+  @apply p-2 rounded-lg bg-neutral text-default;
+}
+
+.input-container {
+  @apply flex flex-col gap-1;
+}
+
+.button-fill {
+  @apply rounded-lg text-center py-2 px-4 text-default w-max;
+}
+
+.button-outline {
+  @apply rounded-lg outline text-center py-2 px-4 text-default w-max;
 }

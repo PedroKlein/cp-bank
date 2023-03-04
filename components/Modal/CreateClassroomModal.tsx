@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import Modal from "../../layouts/Modal";
 import axios from "axios";
 import { PostCreateClassroomReq } from "../../pages/api/classroom";
+import ActionModal from "./ActionModal";
 
 type Props = {
   isOpen: boolean;
@@ -21,39 +22,56 @@ const CreateClassroomModal: React.FC<Props> = ({ isOpen, onClose }) => {
     };
 
     await axios.post("/api/classroom", body);
+
+    onClose();
   }
 
   return (
-    <Modal
+    <ActionModal
       onClose={onClose}
       isOpen={isOpen}
-      // onPositive={handleSubmit}
-      // positiveButtonText="Create Classroom"
-      // positiveButtonLoadingText="Creating Classroom..."
+      title="Create your classroom!"
+      actions={
+        <>
+          <button className="button-outline outline-primary" onClick={onClose}>
+            Cancel
+          </button>
+          <button className="button-fill bg-primary" onClick={handleSubmit}>
+            Create classroom
+          </button>
+        </>
+      }
     >
-      <h3>Create your classroom!</h3>
-      <form onSubmit={(e) => e.preventDefault()} style={{ marginBottom: 0 }}>
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Classroom name"
-          maxLength={100}
-          ref={classroomNameRef}
-          required
-        />
-        <label htmlFor="desc">Description</label>
-        <textarea
-          id="desc"
-          name="desc"
-          placeholder="Classroom description"
-          maxLength={300}
-          ref={classroomDescRef}
-          required
-        />
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="flex flex-col gap-4"
+      >
+        <div className="input-container">
+          <label htmlFor="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Classroom name"
+            maxLength={100}
+            ref={classroomNameRef}
+            required
+          />
+        </div>
+
+        <div className="input-container">
+          <label htmlFor="desc">Description</label>
+          <textarea
+            id="desc"
+            name="desc"
+            placeholder="Classroom description"
+            maxLength={300}
+            ref={classroomDescRef}
+            required
+          />
+        </div>
       </form>
-    </Modal>
+    </ActionModal>
   );
 };
 

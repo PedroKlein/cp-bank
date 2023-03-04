@@ -2,11 +2,11 @@ import React, { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
-interface ModalProps {
+export type ModalProps = {
   isOpen: boolean;
   children: React.ReactNode | React.ReactNode[];
   onClose: () => void;
-}
+};
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   const containerRef = useRef(null);
@@ -39,14 +39,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
             onClick={() => onClose()}
           >
             <motion.div
-              className="bg-white rounded-lg p-4 max-w-sm w-full mx-4"
+              className="bg-default rounded-lg p-2 max-w-[50vw] max-h-[80vh] w-full mx-4 overflow-auto"
               variants={modalVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
               onClick={(e) => e.stopPropagation()}
             >
-              <button className="absolute top-0 right-0 p-2" onClick={onClose}>
+              <button className="absolute top-0 right-0 p-4" onClick={onClose}>
                 <svg
                   className="h-6 w-6 text-gray-700"
                   fill="none"

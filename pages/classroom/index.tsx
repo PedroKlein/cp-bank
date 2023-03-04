@@ -37,7 +37,7 @@ const Classroom: React.FC = () => {
           <h1>My classrooms</h1>
           {session.user.role === Role.PROFESSOR && (
             <button
-              className="primary-button"
+              className="button-fill bg-primary"
               onClick={() => setModalOpen(true)}
             >
               Create classroom
