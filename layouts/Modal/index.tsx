@@ -1,146 +1,70 @@
-import React, { useEffect, useRef } from "react";
-import { useState } from "react";
+import React, { useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 
-const isOpenClass = "modal-is-open";
-const openingClass = "modal-is-opening";
-const closingClass = "modal-is-closing";
-const animationDuration = 400;
-
-type Props = {
-  children?: React.ReactNode;
+export type ModalProps = {
   isOpen: boolean;
-  positiveButtonText?: string;
-  positiveButtonLoadingText?: string;
+  children: React.ReactNode | React.ReactNode[];
   onClose: () => void;
-  onPositive?: () => Promise<void>;
-  withoutAction?: boolean;
 };
 
-const Modal: React.FC<Props> = ({
-  children,
-  isOpen,
-  positiveButtonText,
-  positiveButtonLoadingText,
-  withoutAction = false,
-  onClose,
-  onPositive,
-}) => {
-  const modalRef = useRef<HTMLDialogElement>(null);
-  const [loading, setLoading] = useState(false);
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+  const containerRef = useRef(null);
+  useOnClickOutside(containerRef, onClose);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    function closeOnESC(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        closeModal();
-      }
-    }
-    document.addEventListener("keydown", closeOnESC);
-    return () => {
-      document.removeEventListener("keydown", closeOnESC);
-    };
-  }, [isOpen]);
+  const backdropVariants = {
+    visible: { opacity: 0.7 },
+    hidden: { opacity: 0 },
+  };
 
-  useEffect(() => {
-    if (!modalRef) return;
-    if (isOpen) {
-      if (isScrollbarVisible()) {
-        document.documentElement.style.setProperty(
-          "--scrollbar-width",
-          `${getScrollbarWidth()}px`
-        );
-      }
-      document.documentElement.classList.add(isOpenClass, openingClass);
-      setTimeout(() => {
-        document.documentElement.classList.remove(openingClass);
-      }, animationDuration);
-      modalRef.current.setAttribute("open", "true");
-    }
-  }, [isOpen, modalRef]);
-
-  function closeModal() {
-    if (loading) return;
-    document.documentElement.classList.add(closingClass);
-    setTimeout(() => {
-      document.documentElement.classList.remove(closingClass, isOpenClass);
-      document.documentElement.style.removeProperty("--scrollbar-width");
-      modalRef.current.removeAttribute("open");
-      onClose();
-    }, animationDuration);
-  }
-
-  function getScrollbarWidth() {
-    // Creating invisible container
-    const outer = document.createElement("div");
-    outer.style.visibility = "hidden";
-    outer.style.overflow = "scroll";
-    document.body.appendChild(outer);
-
-    // Creating inner element and placing it in the container
-    const inner = document.createElement("div");
-    outer.appendChild(inner);
-
-    // Calculating difference between container's full width and the child width
-    const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-
-    // Removing temporary elements from the DOM
-    outer.parentNode.removeChild(outer);
-
-    return scrollbarWidth;
-  }
-
-  function isScrollbarVisible() {
-    return document.body.scrollHeight > screen.height;
-  }
-
-  async function handlePositive() {
-    setLoading(true);
-    if (onPositive) {
-      await onPositive();
-    }
-    setLoading(false);
-    closeModal();
-  }
-
-  if (!isOpen) return;
+  const modalVariants = {
+    hidden: { opacity: 0, y: "-50%" },
+    visible: { opacity: 1, y: "0%" },
+    exit: { opacity: 0, y: "-50%" },
+  };
 
   return (
-    <dialog id="modal-example" ref={modalRef} onClick={closeModal}>
-      <article onClick={(e) => e.stopPropagation()}>
-        <a
-          href="#close"
-          aria-label="Close"
-          className="close"
-          onClick={closeModal}
-          style={{ marginBottom: 0 }}
-        ></a>
-        {children}
-        {!withoutAction && (
-          <footer style={{ marginTop: 0 }}>
-            <a
-              href="#cancel"
-              role="button"
-              className="secondary"
-              onClick={closeModal}
-              // @ts-ignore
-              disabled={loading}
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            className="fixed top-0 left-0 w-full h-full bg-black z-50"
+            variants={backdropVariants}
+            animate="visible"
+            initial="hidden"
+            exit="hidden"
+          />
+          <div
+            className="fixed top-0 left-0 w-full h-full transparent flex items-center justify-center z-50"
+            onClick={() => onClose()}
+          >
+            <motion.div
+              className="bg-default rounded-lg p-2 max-w-[50vw] max-h-[80vh] w-full mx-4 overflow-auto"
+              variants={modalVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={(e) => e.stopPropagation()}
             >
-              Cancel
-            </a>
-            <a
-              href="#confirm"
-              role="button"
-              aria-busy={loading}
-              onClick={handlePositive}
-            >
-              {loading
-                ? positiveButtonLoadingText || "Loading"
-                : positiveButtonText || "Confirm"}
-            </a>
-          </footer>
-        )}
-      </article>
-    </dialog>
+              <button className="absolute top-0 right-0 p-4" onClick={onClose}>
+                <svg
+                  className="h-6 w-6 text-gray-700"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              {children}
+            </motion.div>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
   );
 };
 

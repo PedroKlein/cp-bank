@@ -1,75 +1,41 @@
-import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import React from "react";
-import ThemeSwitch from "../../components/ThemeSwitch";
-import Styles from "./header.module.scss";
-import { Role } from "@prisma/client";
+import Profile from "../../components/Header/Profile";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import Notification from "../../components/Header/Notification";
 
 const Header: React.FC = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const isActive: (pathname: string) => boolean = (pathname) =>
-    router.pathname === pathname;
 
+  const unauthenticatedOptions = (
+    <div className="hidden sm:ml-6 sm:flex sm:items-center">
+      <button className="text-default hover:text-secondary px-3 py-2 rounded-md text-sm font-medium">
+        <Link href="/api/auth/signin">Log in</Link>
+      </button>
+    </div>
+  );
+
+  const authenticatedOptions = (
+    <div className="ml-6 flex items-center gap-4">
+      <Notification />
+      <Profile />
+    </div>
+  );
   return (
-    <header className="container" style={{ minHeight: "90px" }}>
-      <nav>
-        <ul>
-          <li>
-            <Link href="/">
-              <strong>CP Bank</strong>
+    <header className="bg-primary">
+      <nav className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between h-16">
+          <div className="flex-shrink-0 flex items-center font-bold text-lg">
+            <Link href="/" className="text-secondary">
+              CP Bank
             </Link>
-          </li>
-          <li>
-            <ThemeSwitch />
-          </li>
-        </ul>
-
-        <ul>
-          {session ? (
-            <>
-              <li>
-                <Link data-active={isActive("/invite")} href="/invite">
-                  My Invites
-                </Link>
-              </li>
-
-              <li>
-                <Link data-active={isActive("/classroom")} href="/classroom">
-                  My Classrooms
-                </Link>
-              </li>
-
-              <li>
-                <a
-                  style={{ cursor: "pointer" }}
-                  onClick={() =>
-                    signOut({
-                      callbackUrl: `${window.location.origin}`,
-                    })
-                  }
-                >
-                  Log out
-                </a>
-              </li>
-              <li>
-                <span style={{ marginRight: "10px" }}>{session.user.name}</span>
-                <img
-                  src={session.user.image}
-                  alt=""
-                  style={{ borderRadius: "50%", width: "50px" }}
-                />
-              </li>
-            </>
-          ) : (
-            <li>
-              <Link data-active={isActive("/signup")} href="/api/auth/signin">
-                Log in
-              </Link>
-            </li>
-          )}
-        </ul>
+          </div>
+          {status !== "authenticated"
+            ? unauthenticatedOptions
+            : authenticatedOptions}
+        </div>
       </nav>
     </header>
   );

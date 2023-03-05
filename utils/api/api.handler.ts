@@ -9,7 +9,9 @@ export function apiHandler(handler: ApiMethodHandlers) {
   return async (req: NextApiRequest, res: NextApiResponse<ErrorResponse>) => {
     try {
       const session = await getSession({ req });
-      const currentUser = session.user as User;
+
+      const currentUser = session?.user as User;
+
       const method = req.method
         ? (req.method.toUpperCase() as keyof ApiMethodHandlers)
         : undefined;

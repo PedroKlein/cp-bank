@@ -1,0 +1,45 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html {
+  @apply text-default bg-default;
+  @media (max-width: 425px) {
+    font-size: 80%;
+  }
+}
+
+main {
+  @apply flex flex-col p-4 mx-auto xl:max-w-7xl overflow-auto;
+  height: calc(100vh - 64px - 48px);
+  // margin-bottom: 48px;
+}
+
+h1 {
+  @apply text-default text-4xl;
+}
+
+h2 {
+  @apply text-default text-2xl;
+}
+
+h3 {
+  @apply text-default text-xl;
+}
+
+input,
+textarea {
+  @apply p-2 rounded-lg bg-neutral text-default;
+}
+
+.input-container {
+  @apply flex flex-col gap-1;
+}
+
+.button-fill {
+  @apply rounded-lg text-center py-2 px-4 text-default w-max;
+}
+
+.button-outline {
+  @apply rounded-lg outline text-center py-2 px-4 text-default w-max;
+}

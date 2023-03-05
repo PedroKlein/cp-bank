@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
-import InviteStudentsModal from "../../components/InviteStudentsModal";
+import InviteStudentsModal from "../../components/Modal/InviteStudentsModal";
+import StudentItem from "../../components/Classroom/StudentItem";
 
 const ClassroomPage: React.FC = () => {
   const router = useRouter();
@@ -17,33 +18,45 @@ const ClassroomPage: React.FC = () => {
     }
   >(`/api/classroom/${classroomId}`);
 
+  console.log(classroom);
+
   if (status === "loading" || !classroom)
     return <main aria-busy className="center" />;
 
   return (
-    <main className="container">
-      <hgroup>
-        <h2>Classroom: {classroom?.name}</h2>
-        <h3>Professor: {classroom?.professor.name}</h3>
-      </hgroup>
+    <main>
+      <section className="flex flex-col gap-4">
+        <div className="flex justify-between">
+          <hgroup>
+            <h1>{classroom.name}</h1>
+            <h3>Professor: {classroom?.professor.name}</h3>
+          </hgroup>
 
-      <p>
-        <b>description: </b>
-        {classroom?.description}
-      </p>
+          {session?.user?.id === classroom?.professorId && (
+            <button
+              className="button-fill bg-primary"
+              onClick={() => setModalOpen(true)}
+            >
+              Invite Students
+            </button>
+          )}
+        </div>
 
-      {session?.user?.id === classroom?.professorId && (
-        <button onClick={() => setModalOpen(true)}>Invite Students</button>
-      )}
+        <p>
+          <b>description: </b>
+          {classroom?.description}
+        </p>
 
-      <small>List of students:</small>
-      <ul>
-        {classroom?.students.map((student) => (
-          <li key={student.id}>{`${student.name}${
-            student.id === session.user.id ? " (you)" : ""
-          }`}</li>
-        ))}
-      </ul>
+        <div className="flex flex-col gap-2">
+          <span>{`Students (${classroom?.students.length})`}</span>
+          <ul className="flex flex-row gap-2">
+            {classroom?.students.map((student) => (
+              <StudentItem student={student} key={student.id} />
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {modalOpen && (
         <InviteStudentsModal
           classroomId={classroom.id}

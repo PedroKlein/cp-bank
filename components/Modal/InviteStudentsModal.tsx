@@ -5,6 +5,8 @@ import useSWR from "swr";
 import { User } from "@prisma/client";
 import user from "../../pages/api/user";
 import { PostRequestStudentReq } from "../../pages/api/classroom/request/[id]";
+import ContentModal from "./ContentModal";
+import StudentItem from "../Classroom/StudentItem";
 
 type Props = {
   classroomId: string;
@@ -33,33 +35,30 @@ const InviteStudentsModal: React.FC<Props> = ({
   }
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} withoutAction={true}>
-      <h3>Invite Students</h3>
-      <form onSubmit={(e) => e.preventDefault()} style={{ marginBottom: 0 }}>
-        <input
-          type="search"
-          id="search"
-          name="search"
-          placeholder="Search"
-          onChange={(e) => setSearch(e.target.value.toLowerCase())}
-        />
-        <ul>
-          {users
-            ?.filter((u) => u.name.toLowerCase().includes(search))
-            .map((user) => (
-              <li key={user.id}>
-                <span>{user.name}</span>
-                <a
-                  style={{ float: "right" }}
-                  onClick={() => sendInvite(user.id)}
-                >
-                  Invite
-                </a>
-              </li>
-            ))}
-        </ul>
-      </form>
-    </Modal>
+    <ContentModal onClose={onClose} isOpen={isOpen} title="Invite Students">
+      <input
+        type="search"
+        id="search"
+        name="search"
+        placeholder="Search"
+        onChange={(e) => setSearch(e.target.value.toLowerCase())}
+      />
+      <ul className="flex flex-col gap-1">
+        {users
+          ?.filter((u) => u.name.toLowerCase().includes(search))
+          .map((user) => (
+            <li key={user.id} className="flex flex-row justify-between">
+              <StudentItem student={user} />
+              <button
+                className="button-fill bg-primary"
+                onClick={() => sendInvite(user.id)}
+              >
+                Invite
+              </button>
+            </li>
+          ))}
+      </ul>
+    </ContentModal>
   );
 };
 
