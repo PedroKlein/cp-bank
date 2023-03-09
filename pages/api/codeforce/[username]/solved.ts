@@ -20,12 +20,10 @@ type ApiResponse = {
   result: ApiSubmission[];
 };
 
-async function getUserSolvedProblems(
-  req: NextApiRequest,
-  res: NextApiResponse<ApiProblem[]>
-) {
-  const { username } = req.query;
-
+//TODO: refactor file locations
+export async function getUserSolvedProblems(
+  username: string
+): Promise<ApiProblem[]> {
   const response = await axios.get<ApiResponse>(
     `https://codeforces.com/api/user.status?handle=${username}`
   );
@@ -38,19 +36,32 @@ async function getUserSolvedProblems(
     (submission) => submission.verdict === "OK"
   );
 
-  return res.json(
-    Array.from(
-      new Set(
-        submissions.map((submission) => ({
-          contestId: submission.contestId,
-          index: submission.problem.index,
-          tags: submission.problem.tags || [],
-        }))
-      )
-    )
+  const apiProblems = submissions.map(
+    (submission): ApiProblem => ({
+      contestId: submission.contestId,
+      index: submission.problem.index,
+      tags: submission.problem.tags || [],
+    })
   );
+
+  return Array.from(new Set(apiProblems));
+}
+
+async function getSolved(
+  req: NextApiRequest,
+  res: NextApiResponse<ApiProblem[]>
+) {
+  const { username } = req.query;
+
+  if (Array.isArray(username)) {
+    throw new Error("Invalid array for username parameter");
+  }
+
+  const unsolvedProblems = await getUserSolvedProblems(username);
+
+  return res.json(unsolvedProblems);
 }
 
 export default apiHandler({
-  GET: { handler: getUserSolvedProblems },
+  GET: { handler: getSolved },
 });
