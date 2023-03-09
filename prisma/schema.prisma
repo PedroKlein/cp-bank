@@ -64,8 +64,21 @@ model User {
   professorClassrooms     Classroom[] @relation("professor")
   classrooms              Classroom[]
   pendingClassroomRequest Classroom[] @relation(name: "pendingClassroomRequest")
+  problemsSolved          Problem[]   @relation(name: "problemsSolved")
 
   @@map(name: "users")
+}
+
+model Problem {
+  id        String   @id @default(cuid())
+  contestId Int      @map(name: "contest_id")
+  index     String
+  tags      String[] @default([])
+
+  students    User[]        @relation(name: "problemsSolved")
+  problemList ProblemList[]
+
+  @@unique([contestId, index])
 }
 
 model Classroom {
@@ -75,14 +88,30 @@ model Classroom {
   professorId String   @map("professor_id")
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @updatedAt @map(name: "updated_at")
-  isActive    Boolean  @default(true)
+  isActive    Boolean  @default(true) @map(name: "is_active")
 
   professor               User   @relation(name: "professor", fields: [professorId], references: [id], onDelete: Cascade)
   students                User[]
   pendingClassroomRequest User[] @relation(name: "pendingClassroomRequest")
 
+  ProblemList ProblemList[]
+
   @@unique([professorId, name])
   @@map(name: "classrooms")
+}
+
+model ProblemList {
+  id             String    @id @default(cuid())
+  name           String
+  description    String?
+  tags           String[]
+  createdAt      DateTime  @default(now()) @map(name: "created_at")
+  releaseDate    DateTime  @default(now()) @map(name: "release_date")
+  submissionDate DateTime? @map(name: "submission_date")
+  classroomId    String
+
+  problems  Problem[]
+  classroom Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
