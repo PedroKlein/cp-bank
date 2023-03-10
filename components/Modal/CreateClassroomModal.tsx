@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import Modal from "../../layouts/Modal";
 import axios from "axios";
 import { PostCreateClassroomReq } from "../../pages/api/classroom";
 import ActionModal from "./ActionModal";

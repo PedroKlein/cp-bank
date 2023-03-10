@@ -5,10 +5,12 @@ import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import InviteStudentsModal from "../../components/Modal/InviteStudentsModal";
 import StudentItem from "../../components/Classroom/StudentItem";
+import CreateProblemList from "../../components/Modal/CreateProblemList";
 
 const ClassroomPage: React.FC = () => {
   const router = useRouter();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
+  const [listModalOpen, setListmodalOpen] = useState(false);
   const { data: session, status } = useSession();
   const { id: classroomId } = router.query;
   const { data: classroom } = useSWR<
@@ -33,12 +35,20 @@ const ClassroomPage: React.FC = () => {
           </hgroup>
 
           {session?.user?.id === classroom?.professorId && (
-            <button
-              className="button-fill bg-primary"
-              onClick={() => setModalOpen(true)}
-            >
-              Invite Students
-            </button>
+            <div className="flex flex-row gap-2">
+              <button
+                className="button-fill bg-primary"
+                onClick={() => setInviteModalOpen(true)}
+              >
+                Invite Students
+              </button>
+              <button
+                className="button-fill bg-primary"
+                onClick={() => setListmodalOpen(true)}
+              >
+                Create Problem List
+              </button>
+            </div>
           )}
         </div>
 
@@ -57,11 +67,19 @@ const ClassroomPage: React.FC = () => {
         </div>
       </section>
 
-      {modalOpen && (
+      {inviteModalOpen && (
         <InviteStudentsModal
           classroomId={classroom.id}
-          isOpen={modalOpen}
-          onClose={() => setModalOpen(false)}
+          isOpen={inviteModalOpen}
+          onClose={() => setInviteModalOpen(false)}
+        />
+      )}
+
+      {listModalOpen && (
+        <CreateProblemList
+          // classroomId={classroom.id}
+          isOpen={listModalOpen}
+          onClose={() => setListmodalOpen(false)}
         />
       )}
     </main>

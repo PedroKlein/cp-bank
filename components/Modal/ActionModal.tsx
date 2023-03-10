@@ -21,7 +21,7 @@ const ActionModal: React.FC<ActionModalProps> = ({
           {title}
         </h3>
       </header>
-      <div className="p-6 space-y-6 text-default">{children}</div>
+      <div className="p-6 flex-grow space-y-6 text-default">{children}</div>
       <footer className="flex items-center justify-evenly pt-3 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
         {actions}
       </footer>

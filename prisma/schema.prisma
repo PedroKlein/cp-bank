@@ -69,16 +69,30 @@ model User {
   @@map(name: "users")
 }
 
+model ProblemTag {
+  name String @id
+
+  Problems    Problem[]
+  ProblemList ProblemList[] @relation(name: "problemList")
+
+  @@map("problemtags")
+}
+
 model Problem {
-  id        String   @id @default(cuid())
-  contestId Int      @map(name: "contest_id")
+  id        String       @id @default(cuid())
+  contestId Int          @map(name: "contest_id")
   index     String
-  tags      String[] @default([])
+  name      String
+  type      String?
+  points    Int?
+  rating    Int?
+  tags      ProblemTag[]
 
   students    User[]        @relation(name: "problemsSolved")
   problemList ProblemList[]
 
   @@unique([contestId, index])
+  @@map("problems")
 }
 
 model Classroom {
@@ -97,21 +111,23 @@ model Classroom {
   ProblemList ProblemList[]
 
   @@unique([professorId, name])
-  @@map(name: "classrooms")
+  @@map("classrooms")
 }
 
 model ProblemList {
   id             String    @id @default(cuid())
   name           String
   description    String?
-  tags           String[]
   createdAt      DateTime  @default(now()) @map(name: "created_at")
   releaseDate    DateTime  @default(now()) @map(name: "release_date")
   submissionDate DateTime? @map(name: "submission_date")
   classroomId    String
 
+  tags      ProblemTag[] @relation(name: "problemList")
   problems  Problem[]
-  classroom Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+  classroom Classroom    @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+
+  @@map("problemlists")
 }
 
 model VerificationToken {
