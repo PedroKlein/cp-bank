@@ -10,11 +10,8 @@ export function paginateList<T>(
   page: number,
   pageSize: number
 ): Paginated<T> {
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-
   return {
-    items: list.slice(startIndex, endIndex),
+    items: list,
     total: list.length,
     page,
     pageSize,
