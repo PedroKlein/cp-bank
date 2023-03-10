@@ -4,6 +4,8 @@ import Datepicker from "react-tailwindcss-datepicker";
 import { PostCreateClassroomReq } from "../../pages/api/classroom";
 import ActionModal from "./ActionModal";
 import { subtractDays } from "../../utils/date.utils";
+import TagInput from "../Generic/TagInput";
+import useSWR from "swr";
 
 type Props = {
   isOpen: boolean;
@@ -13,13 +15,18 @@ type Props = {
 const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
   const classroomNameRef = useRef<HTMLInputElement>(null);
   const classroomDescRef = useRef<HTMLTextAreaElement>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
   });
+  const { data: tags } = useSWR<string[]>(`/api/problem/tag`);
+
+  const handleTagsChange = (tags: string[]) => {
+    setSelectedTags(tags);
+  };
 
   const handleValueChange = (newValue) => {
-    console.log("newValue:", newValue);
     setValue(newValue);
   };
 
@@ -96,7 +103,16 @@ const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
           </div>
         </div>
         <div className="flex flex-col gap-2 h-full">
-          <span>test</span>
+          {tags && (
+            <div className="input-container">
+              <label htmlFor="tags">Select the tags for the list</label>
+              <TagInput
+                suggestions={tags}
+                selectedTags={selectedTags}
+                onChange={handleTagsChange}
+              />
+            </div>
+          )}
         </div>
       </form>
     </ActionModal>
