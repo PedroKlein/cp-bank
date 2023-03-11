@@ -6,6 +6,7 @@ import ActionModal from "./ActionModal";
 import { subtractDays } from "../../utils/date.utils";
 import TagInput from "../Generic/TagInput";
 import useSWR from "swr";
+import ProblemListPaginated from "../Classroom/ProblemListPaginated";
 
 type Props = {
   isOpen: boolean;
@@ -113,6 +114,7 @@ const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
               />
             </div>
           )}
+          <ProblemListPaginated selectedTags={selectedTags} />
         </div>
       </form>
     </ActionModal>

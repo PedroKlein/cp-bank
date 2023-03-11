@@ -19,20 +19,32 @@ async function getProblems(req: NextApiRequest, res: NextApiResponse) {
     throw new Error("Invalid query params");
   }
 
-  const problems = await prisma.problem.findMany({
-    skip: pageSizeNumber * (pageNumber - 1),
-    take: pageSizeNumber,
-    where: {
-      tags: {
-        some: { name: { in: tagsArray } },
-      },
+  const whereQuery = {
+    tags: {
+      some: { name: { in: tagsArray } },
     },
-    include: {
-      tags: true,
-    },
-  });
+  };
 
-  const paginatedProblems = paginateList(problems, pageNumber, pageSizeNumber);
+  const [problems, total] = await prisma.$transaction([
+    prisma.problem.findMany({
+      skip: pageSizeNumber * (pageNumber - 1),
+      take: pageSizeNumber,
+      where: whereQuery,
+      include: {
+        tags: true,
+      },
+    }),
+    prisma.problem.count({
+      where: whereQuery,
+    }),
+  ]);
+
+  const paginatedProblems = paginateList(
+    problems,
+    pageNumber,
+    pageSizeNumber,
+    total
+  );
 
   return res.json(paginatedProblems);
 }
