@@ -20,8 +20,6 @@ const ClassroomPage: React.FC = () => {
     }
   >(`/api/classroom/${classroomId}`);
 
-  console.log(classroom);
-
   if (status === "loading" || !classroom)
     return <main aria-busy className="center" />;
 

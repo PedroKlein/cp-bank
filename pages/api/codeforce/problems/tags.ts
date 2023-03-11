@@ -7,8 +7,6 @@ import { HttpStatusCode } from "axios";
 async function createCodeforcesTags(req: NextApiRequest, res: NextApiResponse) {
   const tags = await getAllProblemTags();
 
-  console.log(tags);
-
   await prisma.problemTag.createMany({
     data: tags.map((t) => ({
       name: t,

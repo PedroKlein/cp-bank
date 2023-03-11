@@ -40,8 +40,6 @@ const TagInput: React.FC<Props> = ({ suggestions, selectedTags, onChange }) => {
   }
 
   function addTag(tag: string) {
-    console.log(tag);
-
     if (
       tag !== "" &&
       !selectedTags.includes(tag) &&
