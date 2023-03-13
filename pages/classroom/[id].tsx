@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import InviteStudentsModal from "../../components/Modal/InviteStudentsModal";
 import StudentItem from "../../components/Classroom/StudentItem";
 import CreateProblemList from "../../components/Modal/CreateProblemList";
+import { CompleteClassroom } from "../../@types/classroom.types";
 
 const ClassroomPage: React.FC = () => {
   const router = useRouter();
@@ -13,12 +14,9 @@ const ClassroomPage: React.FC = () => {
   const [listModalOpen, setListmodalOpen] = useState(false);
   const { data: session, status } = useSession();
   const { id: classroomId } = router.query;
-  const { data: classroom } = useSWR<
-    Classroom & {
-      students: User[];
-      professor: User;
-    }
-  >(`/api/classroom/${classroomId}`);
+  const { data: classroom } = useSWR<CompleteClassroom>(
+    `/api/classroom/${classroomId}`
+  );
 
   if (status === "loading" || !classroom)
     return <main aria-busy className="center" />;
@@ -54,14 +52,23 @@ const ClassroomPage: React.FC = () => {
           <b>description: </b>
           {classroom?.description}
         </p>
-
-        <div className="flex flex-col gap-2">
-          <span>{`Students (${classroom?.students.length})`}</span>
-          <ul className="flex flex-row gap-2">
-            {classroom?.students.map((student) => (
-              <StudentItem student={student} key={student.id} />
-            ))}
-          </ul>
+        <div className="grid grid-cols-2 h-full gap-8">
+          <div className="flex flex-col gap-2">
+            <span>{`Students (${classroom?.students.length})`}</span>
+            <ul className="flex flex-row gap-2">
+              {classroom?.students.map((student) => (
+                <StudentItem student={student} key={student.id} />
+              ))}
+            </ul>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span>{`Lists (${classroom?.ProblemList.length})`}</span>
+            <ul className="flex flex-col gap-2">
+              {classroom?.ProblemList.map((list) => (
+                <span>{list.name}</span>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -75,7 +82,7 @@ const ClassroomPage: React.FC = () => {
 
       {listModalOpen && (
         <CreateProblemList
-          // classroomId={classroom.id}
+          classroomId={classroom.id}
           isOpen={listModalOpen}
           onClose={() => setListmodalOpen(false)}
         />

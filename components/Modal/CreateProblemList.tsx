@@ -8,6 +8,7 @@ import TagInput from "../Generic/TagInput";
 import useSWR from "swr";
 import ProblemListPaginated from "../Classroom/ProblemListPaginated";
 import { ProblemWithTag } from "../../@types/problem.types";
+import { PostCreateProblemListReq } from "../../pages/api/classroom/[id]/list";
 
 type CalendarRange = {
   startDate: Date;
@@ -15,11 +16,16 @@ type CalendarRange = {
 };
 
 type Props = {
+  classroomId: string;
   isOpen: boolean;
   onClose: () => void;
 };
 
-const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
+const CreateProblemList: React.FC<Props> = ({
+  classroomId,
+  isOpen,
+  onClose,
+}) => {
   const listNameRef = useRef<HTMLInputElement>(null);
   const listDescRef = useRef<HTMLTextAreaElement>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -50,12 +56,16 @@ const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
   async function handleSubmit() {
     if (!listNameRef || !listDescRef) return;
 
-    const body: PostCreateClassroomReq = {
+    const body: PostCreateProblemListReq = {
       name: listNameRef.current.value,
       description: listDescRef.current.value,
+      releaseDate: dateRange.startDate,
+      submissionDate: dateRange.endDate,
+      tags: selectedTags,
+      problemsId: selectedProblems,
     };
 
-    await axios.post("/api/classroom", body);
+    await axios.post(`/api/classroom/${classroomId}/list`, body);
 
     onClose();
   }

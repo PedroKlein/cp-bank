@@ -20,7 +20,7 @@ const ProblemListPaginated: React.FC<Props> = ({
   onSelect,
 }) => {
   const [pageIndex, setPageIndex] = useState(0);
-  const pageSize = 10;
+  const pageSize = 8;
   const tagsQuery = selectedTags.reduce(
     (result, current) => result + `tags=${current}&`,
     ""
