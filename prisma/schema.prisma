@@ -104,11 +104,10 @@ model Classroom {
   updatedAt   DateTime @updatedAt @map(name: "updated_at")
   isActive    Boolean  @default(true) @map(name: "is_active")
 
-  professor               User   @relation(name: "professor", fields: [professorId], references: [id], onDelete: Cascade)
+  professor               User          @relation(name: "professor", fields: [professorId], references: [id], onDelete: Cascade)
   students                User[]
-  pendingClassroomRequest User[] @relation(name: "pendingClassroomRequest")
-
-  ProblemList ProblemList[]
+  pendingClassroomRequest User[]        @relation(name: "pendingClassroomRequest")
+  ProblemList             ProblemList[]
 
   @@unique([professorId, name])
   @@map("classrooms")

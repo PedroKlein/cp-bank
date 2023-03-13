@@ -20,7 +20,7 @@ const PageButton: React.FC<PageButtonProps> = ({
       ${active ? "bg-secondary" : "bg-primary"}
       ${
         !disabled
-          ? "bg-primary hover:bg-red-500"
+          ? "bg-primary hover:bg-neutral"
           : "bg-primary cursor-not-allowed"
       }
       `}

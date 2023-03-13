@@ -18,6 +18,7 @@ async function getClassroom(req: NextApiRequest, res: NextApiResponse) {
     include: {
       students: true,
       professor: true,
+      ProblemList: true,
     },
   });
 

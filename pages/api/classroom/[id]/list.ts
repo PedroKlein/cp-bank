@@ -1,0 +1,61 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+import createHttpError from "http-errors";
+import { getSession } from "next-auth/react";
+
+import { Role } from "@prisma/client";
+import { HttpStatusCode } from "axios";
+import prisma from "../../../../lib/prisma";
+import { apiHandler } from "../../../../utils/api/api.handler";
+
+type CreateProblemListReq = {
+  name: string;
+  description: string;
+  releaseDate: Date;
+  submissionDate: Date;
+  tags: string[];
+  problemsId: string[];
+};
+
+async function createProblemList(req: NextApiRequest, res: NextApiResponse) {
+  const { id: classroomId } = req.query;
+
+  const {
+    name,
+    description,
+    releaseDate,
+    submissionDate,
+    tags,
+    problemsId,
+  }: CreateProblemListReq = req.body;
+
+  if (Array.isArray(classroomId)) throw new createHttpError.BadRequest();
+
+  await prisma.classroom.update({
+    where: { id: classroomId },
+    data: {
+      ProblemList: {
+        create: {
+          name,
+          description,
+          releaseDate,
+          submissionDate,
+          tags: {
+            connect: tags.map((t) => ({ name: t })),
+          },
+          problems: {
+            connect: problemsId.map((p) => ({ id: p })),
+          },
+        },
+      },
+    },
+  });
+
+  return res.status(HttpStatusCode.Created).end();
+}
+
+export default apiHandler({
+  POST: {
+    handler: createProblemList,
+    requiredRoles: [Role.STUDENT, Role.PROFESSOR],
+  },
+});

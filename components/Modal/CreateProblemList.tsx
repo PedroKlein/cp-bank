@@ -7,6 +7,12 @@ import { subtractDays } from "../../utils/date.utils";
 import TagInput from "../Generic/TagInput";
 import useSWR from "swr";
 import ProblemListPaginated from "../Classroom/ProblemListPaginated";
+import { ProblemWithTag } from "../../@types/problem.types";
+
+type CalendarRange = {
+  startDate: Date;
+  endDate: Date;
+};
 
 type Props = {
   isOpen: boolean;
@@ -14,29 +20,39 @@ type Props = {
 };
 
 const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
-  const classroomNameRef = useRef<HTMLInputElement>(null);
-  const classroomDescRef = useRef<HTMLTextAreaElement>(null);
+  const listNameRef = useRef<HTMLInputElement>(null);
+  const listDescRef = useRef<HTMLTextAreaElement>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [value, setValue] = useState({
+  const [selectedProblems, setSelectedProblems] = useState<string[]>([]);
+  const [dateRange, setDateRange] = useState<CalendarRange>({
     startDate: null,
     endDate: null,
   });
   const { data: tags } = useSWR<string[]>(`/api/problem/tag`);
 
-  const handleTagsChange = (tags: string[]) => {
+  function handleTagsChange(tags: string[]) {
     setSelectedTags(tags);
-  };
+  }
 
-  const handleValueChange = (newValue) => {
-    setValue(newValue);
-  };
+  function handleDateRangeChange(newValue) {
+    setDateRange(newValue);
+  }
+
+  function handleProblemsChange(problemId: string) {
+    const isSelected = selectedProblems.includes(problemId);
+    if (isSelected) {
+      setSelectedProblems((old) => old.filter((p) => p !== problemId));
+    } else {
+      setSelectedProblems((old) => [...old, problemId]);
+    }
+  }
 
   async function handleSubmit() {
-    if (!classroomNameRef || !classroomDescRef) return;
+    if (!listNameRef || !listDescRef) return;
 
     const body: PostCreateClassroomReq = {
-      name: classroomNameRef.current.value,
-      description: classroomDescRef.current.value,
+      name: listNameRef.current.value,
+      description: listDescRef.current.value,
     };
 
     await axios.post("/api/classroom", body);
@@ -71,9 +87,9 @@ const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
               type="text"
               id="name"
               name="name"
-              placeholder="Classroom name"
+              placeholder="List name"
               maxLength={100}
-              ref={classroomNameRef}
+              ref={listNameRef}
               required
             />
           </div>
@@ -84,8 +100,8 @@ const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
               className="h-full"
               id="desc"
               name="desc"
-              placeholder="Classroom description"
-              ref={classroomDescRef}
+              placeholder="List description"
+              ref={listDescRef}
               required
             />
           </div>
@@ -98,8 +114,8 @@ const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
               placeholder="select the day of release and limit day to submit"
               useRange={false}
               minDate={subtractDays(new Date(), 1)}
-              value={value}
-              onChange={handleValueChange}
+              value={dateRange}
+              onChange={handleDateRangeChange}
             />
           </div>
         </div>
@@ -114,7 +130,11 @@ const CreateProblemList: React.FC<Props> = ({ isOpen, onClose }) => {
               />
             </div>
           )}
-          <ProblemListPaginated selectedTags={selectedTags} />
+          <ProblemListPaginated
+            selectedTags={selectedTags}
+            selectedProblems={selectedProblems}
+            onSelect={handleProblemsChange}
+          />
         </div>
       </form>
     </ActionModal>
