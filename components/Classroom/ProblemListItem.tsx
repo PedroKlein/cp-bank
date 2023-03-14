@@ -1,12 +1,11 @@
-import { ProblemList } from "@prisma/client";
 import React, { useState } from "react";
-import { ProblemListWithTags } from "../../@types/problemList.types";
+import { ProblemListComplete } from "../../@types/problemList.types";
 import { MdDateRange } from "react-icons/md";
 import dayjs from "dayjs";
 import ProblemListModal from "../Modal/ProblemListModal";
 
 type Props = {
-  problemList: ProblemListWithTags;
+  problemList: ProblemListComplete;
   classroomName?: string;
 };
 
@@ -17,7 +16,10 @@ const ProblemListItem: React.FC<Props> = ({ problemList, classroomName }) => {
   const isLate = dayjs(problemList.submissionDate).isBefore(new Date());
   return (
     <>
-      <div className="flex flex-row w-full p-2 bg-primary rounded-lg text-default justify-between">
+      <div
+        className="flex flex-row w-full p-2 bg-primary rounded-lg text-default justify-between cursor-pointer"
+        onClick={() => setModalIsOpen(true)}
+      >
         <div className="flex flex-col">
           <h3>{`${problemList.name}${
             classroomName ? " (" + classroomName + ")" : ""
@@ -31,7 +33,7 @@ const ProblemListItem: React.FC<Props> = ({ problemList, classroomName }) => {
       </div>
       {modalIsOpen && (
         <ProblemListModal
-          problemListId={problemList.id}
+          problemList={problemList}
           isOpen={modalIsOpen}
           onClose={() => setModalIsOpen(false)}
         />

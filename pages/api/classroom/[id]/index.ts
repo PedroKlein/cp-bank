@@ -21,6 +21,11 @@ async function getClassroom(req: NextApiRequest, res: NextApiResponse) {
       ProblemList: {
         include: {
           tags: true,
+          problems: {
+            include: {
+              tags: true,
+            },
+          },
         },
       },
     },

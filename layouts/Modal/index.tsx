@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
+import ReactDOM from "react-dom";
 
 export type ModalProps = {
   isOpen: boolean;
@@ -23,7 +24,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     exit: { opacity: 0, y: "-50%" },
   };
 
-  return (
+  return ReactDOM.createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -39,7 +40,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
             onClick={() => onClose()}
           >
             <motion.div
-              className="flex flex-col bg-default rounded-lg p-2 max-w-[80vw] max-h-[90vh] h-[90vh] w-full mx-4 overflow-auto"
+              className="flex flex-col bg-default rounded-lg p-2 max-w-[80vw] max-h-[90vh] mx-4 overflow-auto"
               variants={modalVariants}
               initial="hidden"
               animate="visible"
@@ -64,7 +65,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
           </div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.getElementById("__next")
   );
 };
 

@@ -42,12 +42,13 @@ const InviteStudentsModal: React.FC<Props> = ({
         name="search"
         placeholder="Search"
         onChange={(e) => setSearch(e.target.value.toLowerCase())}
+        className="w-full"
       />
       <ul className="flex flex-col gap-1">
         {users
           ?.filter((u) => u.name.toLowerCase().includes(search))
           .map((user) => (
-            <li key={user.id} className="flex flex-row justify-between">
+            <li key={user.id} className="flex flex-row justify-between min-w-[340px] gap-2">
               <StudentItem student={user} />
               <button
                 className="button-fill bg-primary"
