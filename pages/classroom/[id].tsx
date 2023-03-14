@@ -7,6 +7,7 @@ import InviteStudentsModal from "../../components/Modal/InviteStudentsModal";
 import StudentItem from "../../components/Classroom/StudentItem";
 import CreateProblemList from "../../components/Modal/CreateProblemList";
 import { CompleteClassroom } from "../../@types/classroom.types";
+import ProblemListItem from "../../components/Classroom/ProblemListItem";
 
 const ClassroomPage: React.FC = () => {
   const router = useRouter();
@@ -17,6 +18,8 @@ const ClassroomPage: React.FC = () => {
   const { data: classroom } = useSWR<CompleteClassroom>(
     `/api/classroom/${classroomId}`
   );
+
+  console.log(classroom);
 
   if (status === "loading" || !classroom)
     return <main aria-busy className="center" />;
@@ -65,7 +68,7 @@ const ClassroomPage: React.FC = () => {
             <span>{`Lists (${classroom?.ProblemList.length})`}</span>
             <ul className="flex flex-col gap-2">
               {classroom?.ProblemList.map((list) => (
-                <span>{list.name}</span>
+                <ProblemListItem key={list.id} problemList={list} />
               ))}
             </ul>
           </div>

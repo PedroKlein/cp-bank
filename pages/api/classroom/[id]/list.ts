@@ -15,6 +15,22 @@ export type PostCreateProblemListReq = {
   problemsId: string[];
 };
 
+async function getProblemLists(req: NextApiRequest, res: NextApiResponse) {
+  const { id: classroomId } = req.query;
+
+  if (Array.isArray(classroomId)) throw new createHttpError.BadRequest();
+
+  const problemLists = await prisma.problemList.findMany({
+    where: { classroomId: classroomId },
+    include: {
+      tags: true,
+      problems: true,
+    },
+  });
+
+  return res.json(problemLists);
+}
+
 async function createProblemList(req: NextApiRequest, res: NextApiResponse) {
   const { id: classroomId } = req.query;
 
@@ -53,6 +69,9 @@ async function createProblemList(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default apiHandler({
+  GET: {
+    handler: getProblemLists,
+  },
   POST: {
     handler: createProblemList,
     requiredRoles: [Role.PROFESSOR],
