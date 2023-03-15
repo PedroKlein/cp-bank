@@ -1,4 +1,3 @@
-import { Classroom, User } from "@prisma/client";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import useSWR from "swr";
@@ -7,7 +6,8 @@ import InviteStudentsModal from "../../components/Modal/InviteStudentsModal";
 import StudentItem from "../../components/Classroom/StudentItem";
 import CreateProblemList from "../../components/Modal/CreateProblemList";
 import { CompleteClassroom } from "../../@types/classroom.types";
-import ProblemListItem from "../../components/Classroom/ProblemListItem";
+import ProblemListProfessor from "../../components/Problem/ProblemListProfessor";
+import ProblemListStudent from "../../components/Problem/ProblemListStudent";
 
 const ClassroomPage: React.FC = () => {
   const router = useRouter();
@@ -18,6 +18,8 @@ const ClassroomPage: React.FC = () => {
   const { data: classroom } = useSWR<CompleteClassroom>(
     `/api/classroom/${classroomId}`
   );
+
+  const isProfessor = classroom?.professor.id === session?.user?.id;
 
   if (status === "loading" || !classroom)
     return <main aria-busy className="center" />;
@@ -31,7 +33,7 @@ const ClassroomPage: React.FC = () => {
             <h3>Professor: {classroom?.professor.name}</h3>
           </hgroup>
 
-          {session?.user?.id === classroom?.professorId && (
+          {isProfessor && (
             <div className="flex flex-row gap-2">
               <button
                 className="button-fill bg-primary"
@@ -64,11 +66,11 @@ const ClassroomPage: React.FC = () => {
           </div>
           <div className="flex flex-col gap-2">
             <span>{`Lists (${classroom?.ProblemList.length})`}</span>
-            <ul className="flex flex-col gap-2">
-              {classroom?.ProblemList.map((list) => (
-                <ProblemListItem key={list.id} problemList={list} />
-              ))}
-            </ul>
+            {isProfessor ? (
+              <ProblemListProfessor classroomId={classroom?.id} />
+            ) : (
+              <ProblemListStudent classroomId={classroom?.id} />
+            )}
           </div>
         </div>
       </section>

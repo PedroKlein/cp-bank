@@ -3,8 +3,9 @@ import createHttpError from "http-errors";
 
 import { Role } from "@prisma/client";
 import { HttpStatusCode } from "axios";
-import prisma from "../../../../lib/prisma";
-import { apiHandler } from "../../../../utils/api/api.handler";
+import prisma from "../../../../../lib/prisma";
+import { apiHandler } from "../../../../../utils/api/api.handler";
+import tag from "../../../problem/tag";
 
 export type PostCreateProblemListReq = {
   name: string;
@@ -24,7 +25,9 @@ async function getProblemLists(req: NextApiRequest, res: NextApiResponse) {
     where: { classroomId: classroomId },
     include: {
       tags: true,
-      problems: true,
+      problems: {
+        include: { tags: true },
+      },
     },
   });
 

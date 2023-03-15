@@ -22,7 +22,7 @@ const ProblemStatusModal: React.FC<Props> = ({ isOpen, onClose }) => {
       title="Students Problem Status"
     >
       <ul className="grid grid-cols-3 gap-4">
-        {users.map((user) => (
+        {users?.map((user) => (
           <li key={user.id}>
             {/* //TODO: use problem status */}
             <StudentItem student={user} status={ProblemStatus.DONE} />

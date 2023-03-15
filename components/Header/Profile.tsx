@@ -59,8 +59,8 @@ const Profile = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="block px-4 py-2 hover:bg-primary">
-                  Settings
+                <Link href="/list" className="block px-4 py-2 hover:bg-primary">
+                  My lists
                 </Link>
               </li>
             </ul>

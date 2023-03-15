@@ -8,7 +8,7 @@ import prisma from "../../../../lib/prisma";
 import { apiHandler } from "../../../../utils/api/api.handler";
 
 //TODO: check if is a student in the classroom or its a professor
-async function getClassroom(req: NextApiRequest, res: NextApiResponse) {
+async function getCompleteClassroom(req: NextApiRequest, res: NextApiResponse) {
   const { id: classroomId } = req.query;
 
   if (Array.isArray(classroomId)) throw new createHttpError.BadRequest();
@@ -70,7 +70,7 @@ async function deleteClassroom(req: NextApiRequest, res: NextApiResponse) {
 
 export default apiHandler({
   GET: {
-    handler: getClassroom,
+    handler: getCompleteClassroom,
     requiredRoles: [Role.STUDENT, Role.PROFESSOR],
   },
   DELETE: {

@@ -1,23 +1,30 @@
-import React, { useState } from "react";
-import { ProblemListComplete } from "../../@types/problemList.types";
-import ProblemItem from "../Problem/ProblemItem";
+import React from "react";
+import {
+  ProblemListComplete,
+  ProblemListCompleteWithStudents,
+} from "../../@types/problemList.types";
 import ContentModal from "./ContentModal";
-import { BsClipboardData } from "react-icons/bs";
-import ProblemStatusModal from "./ProblemStatusModal";
+import ProblemForProfessor from "../Problem/ProblemForProfessor";
+import { Classroom } from "@prisma/client";
+import ProblemForStudent from "../Problem/ProblemForStudent";
 
 type Props = {
-  problemList: ProblemListComplete;
+  problemList: ProblemListComplete | ProblemListCompleteWithStudents;
+  classroom?: Classroom;
+  isProfessor?: boolean;
   isOpen: boolean;
   onClose: () => void;
 };
 
 const ProblemListModal: React.FC<Props> = ({
   problemList,
+  classroom,
+  isProfessor = false,
   isOpen,
   onClose,
 }) => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const tags = problemList.tags.map((t) => t.name).join(", ");
+
   return (
     <ContentModal onClose={onClose} isOpen={isOpen} title="Problem list">
       <form
@@ -32,25 +39,21 @@ const ProblemListModal: React.FC<Props> = ({
         </div>
         <div className="flex flex-col gap-2 h-full">
           <ul className="flex flex-col gap-2 w-full">
-            {problemList.problems.map((p) => (
-              <div key={p.id} className="flex flex-row gap-1 items-center">
-                <button onClick={() => setModalIsOpen(true)}>
-                  <BsClipboardData className="h-8 w-8" />
-                </button>
-                <div className="flex-grow">
-                  <ProblemItem problem={p} />
-                </div>
-              </div>
-            ))}
+            {/* //TODO: fix any type on map */}
+            {problemList.problems.map((p) =>
+              isProfessor ? (
+                <ProblemForProfessor
+                  key={p.id}
+                  problem={p}
+                  classroomId={classroom?.id}
+                />
+              ) : (
+                <ProblemForStudent key={p.id} problem={p} />
+              )
+            )}
           </ul>
         </div>
       </form>
-      {modalIsOpen && (
-        <ProblemStatusModal
-          isOpen={modalIsOpen}
-          onClose={() => setModalIsOpen(false)}
-        />
-      )}
     </ContentModal>
   );
 };

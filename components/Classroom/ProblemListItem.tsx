@@ -6,10 +6,15 @@ import ProblemListModal from "../Modal/ProblemListModal";
 
 type Props = {
   problemList: ProblemListComplete;
+  isProfessor?: boolean;
   classroomName?: string;
 };
 
-const ProblemListItem: React.FC<Props> = ({ problemList, classroomName }) => {
+const ProblemListItem: React.FC<Props> = ({
+  problemList,
+  classroomName,
+  isProfessor = false,
+}) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const tags = problemList.tags.map((t) => t.name).join(", ");
   const submissionDate = dayjs(problemList.submissionDate).format("DD/MM");
@@ -33,6 +38,7 @@ const ProblemListItem: React.FC<Props> = ({ problemList, classroomName }) => {
       </div>
       {modalIsOpen && (
         <ProblemListModal
+          isProfessor={isProfessor}
           problemList={problemList}
           isOpen={modalIsOpen}
           onClose={() => setModalIsOpen(false)}

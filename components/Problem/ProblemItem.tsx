@@ -1,10 +1,8 @@
-import { Problem, ProblemTag } from "@prisma/client";
 import React from "react";
+import { ProblemWithTag } from "../../@types/problem.types";
 
 type Props = {
-  problem: Problem & {
-    tags: ProblemTag[];
-  };
+  problem: ProblemWithTag;
 };
 
 const ProblemItem: React.FC<Props> = ({ problem }) => {
