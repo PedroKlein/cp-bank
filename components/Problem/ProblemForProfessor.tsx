@@ -21,6 +21,8 @@ const ProblemForProfessor: React.FC<Props> = ({ problem, classroomId }) => {
       </div>
       {modalIsOpen && (
         <ProblemStatusModal
+          classroomId={classroomId}
+          problemId={problem.id}
           isOpen={modalIsOpen}
           onClose={() => setModalIsOpen(false)}
         />

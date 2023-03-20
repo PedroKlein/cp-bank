@@ -1,19 +1,30 @@
 import React from "react";
 import useSWR from "swr";
-import { User } from "@prisma/client";
+import { Problem, User } from "@prisma/client";
 import ContentModal from "./ContentModal";
 import StudentItem, { ProblemStatus } from "../Classroom/StudentItem";
 import { MdOutlineDone } from "react-icons/md";
 
 type Props = {
+  classroomId: string;
+  problemId: string;
   isOpen: boolean;
   onClose: () => void;
 };
 
-const ProblemStatusModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { data: users } = useSWR<User[]>(
-    `/api/classroom/request/valid-users/cldq3mecl0002l308275vcthu`
-  );
+const ProblemStatusModal: React.FC<Props> = ({
+  isOpen,
+  classroomId,
+  problemId,
+  onClose,
+}) => {
+  const { data: users } = useSWR<
+    (User & {
+      problemsSolved: Problem[];
+    })[]
+  >(`/api/classroom/${classroomId}/problem/${problemId}`);
+
+  console.log(classroomId, problemId);
 
   return (
     <ContentModal
@@ -24,8 +35,14 @@ const ProblemStatusModal: React.FC<Props> = ({ isOpen, onClose }) => {
       <ul className="grid grid-cols-3 gap-4">
         {users?.map((user) => (
           <li key={user.id}>
-            {/* //TODO: use problem status */}
-            <StudentItem student={user} status={ProblemStatus.DONE} />
+            <StudentItem
+              student={user}
+              status={
+                user.problemsSolved.length
+                  ? ProblemStatus.DONE
+                  : ProblemStatus.PENDING
+              }
+            />
           </li>
         ))}
       </ul>

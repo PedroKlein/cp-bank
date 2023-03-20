@@ -50,15 +50,15 @@ const ClassroomPage: React.FC = () => {
             </div>
           )}
         </div>
-
+        <div className="grid grid-cols-2 h-full gap-8">
+          <div className="flex flex-col gap-2">
+            
         <p>
           <b>description: </b>
           {classroom?.description}
         </p>
-        <div className="grid grid-cols-2 h-full gap-8">
-          <div className="flex flex-col gap-2">
             <span>{`Students (${classroom?.students.length})`}</span>
-            <ul className="flex flex-row gap-2">
+            <ul className="flex flex-row flex-wrap gap-2">
               {classroom?.students.map((student) => (
                 <StudentItem student={student} key={student.id} />
               ))}
