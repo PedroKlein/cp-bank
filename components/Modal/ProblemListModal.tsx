@@ -5,12 +5,11 @@ import {
 } from "../../@types/problemList.types";
 import ContentModal from "./ContentModal";
 import ProblemForProfessor from "../Problem/ProblemForProfessor";
-import { Classroom } from "@prisma/client";
 import ProblemForStudent from "../Problem/ProblemForStudent";
 
 type Props = {
   problemList: ProblemListComplete | ProblemListCompleteWithStudents;
-  classroom?: Classroom;
+  classroomId?: string;
   isProfessor?: boolean;
   isOpen: boolean;
   onClose: () => void;
@@ -18,7 +17,7 @@ type Props = {
 
 const ProblemListModal: React.FC<Props> = ({
   problemList,
-  classroom,
+  classroomId,
   isProfessor = false,
   isOpen,
   onClose,
@@ -45,7 +44,7 @@ const ProblemListModal: React.FC<Props> = ({
                 <ProblemForProfessor
                   key={p.id}
                   problem={p}
-                  classroomId={classroom?.id}
+                  classroomId={classroomId}
                 />
               ) : (
                 <ProblemForStudent key={p.id} problem={p} />

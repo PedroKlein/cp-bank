@@ -24,8 +24,6 @@ const ProblemStatusModal: React.FC<Props> = ({
     })[]
   >(`/api/classroom/${classroomId}/problem/${problemId}`);
 
-  console.log(classroomId, problemId);
-
   return (
     <ContentModal
       onClose={onClose}

@@ -23,8 +23,6 @@ async function getStudentsStatus(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  console.log(students, classroomId, problemId);
-
   return res.json(students);
 }
 

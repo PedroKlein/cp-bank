@@ -6,12 +6,14 @@ import ProblemListModal from "../Modal/ProblemListModal";
 
 type Props = {
   problemList: ProblemListComplete;
+  classroomId?: string;
   isProfessor?: boolean;
   classroomName?: string;
 };
 
 const ProblemListItem: React.FC<Props> = ({
   problemList,
+  classroomId,
   classroomName,
   isProfessor = false,
 }) => {
@@ -38,6 +40,7 @@ const ProblemListItem: React.FC<Props> = ({
       </div>
       {modalIsOpen && (
         <ProblemListModal
+          classroomId={classroomId}
           isProfessor={isProfessor}
           problemList={problemList}
           isOpen={modalIsOpen}

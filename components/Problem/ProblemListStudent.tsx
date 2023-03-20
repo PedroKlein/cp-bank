@@ -15,7 +15,12 @@ const ProblemListStudent: React.FC<Props> = ({ classroomId }) => {
   return (
     <ul className="flex flex-col gap-2">
       {problemLists?.map((list) => (
-        <ProblemListItem key={list.id} problemList={list} isProfessor={false} />
+        <ProblemListItem
+          key={list.id}
+          classroomId={classroomId}
+          problemList={list}
+          isProfessor={false}
+        />
       ))}
     </ul>
   );

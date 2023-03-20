@@ -1,4 +1,4 @@
-import { Classroom, ProblemList, ProblemTag } from "@prisma/client";
+import { Classroom, ProblemList, ProblemTag, User } from "@prisma/client";
 import { ProblemComplete, ProblemWithTag } from "./problem.types";
 
 export type ProblemListWithTags = ProblemList & {
@@ -13,6 +13,7 @@ export type ProblemListComplete = ProblemList & {
 export type ProblemListCompleteWithStudents = ProblemList & {
   tags: ProblemTag[];
   problems: ProblemComplete[];
+  students: User[];
 };
 
 export type ProblemListCompleteWithClassroom = ProblemListComplete & {
