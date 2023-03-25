@@ -22,9 +22,6 @@ const Classroom: React.FC = () => {
       <main>
         <hgroup>
           <h2>{`You aren't in any classroom yet!`}</h2>
-          <h3>
-            {`Plese check your `} <Link href={"/invite"}>invites</Link>
-          </h3>
         </hgroup>
       </main>
     );

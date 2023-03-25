@@ -36,26 +36,24 @@ const FirstLogin: React.FC = () => {
   if (!session) return;
 
   return (
-    <main className="container">
-      <div>
-        <hgroup>
-          <h1>{`Hello, ${session.user.name} ✌️`}</h1>
-          <h2>Welcome to CP-Bank</h2>
-        </hgroup>
+    <main>
+      <div className="flex flex-col gap-2">
+        <h1>{`Hello, ${session.user.name} ✌️`}</h1>
+        <h2>Welcome to CP-Bank</h2>
       </div>
-      <div>
-        <hgroup>
-          <h3>Please fill in your informations</h3>
-          <small>
-            <mark>Attention!</mark> You won't be able to edit these
-            informations!
-          </small>
-        </hgroup>
+      <div className="flex flex-col justify-center h-full">
+        <div className="w-[50%] flex flex-col gap-4">
+          <div>
+            <h3>Please fill in your informations</h3>
+            <small>
+              <mark>Attention!</mark> You won't be able to edit these
+              informations!
+            </small>
+          </div>
 
-        <form onSubmit={handleSubmit}>
-          <fieldset>
-            <label htmlFor="cfUser">
-              Codeforces username
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+            <div className="input-container">
+              <label htmlFor="cfUser">Codeforces username</label>
               <input
                 type="text"
                 id="cfUser"
@@ -64,10 +62,11 @@ const FirstLogin: React.FC = () => {
                 ref={cfUserRef}
                 required
               />
-            </label>
-            <fieldset className="grid">
-              <legend>Type of user</legend>
-              <label htmlFor="isStudent">
+            </div>
+
+            <legend>Type of user</legend>
+            <div className="flex flex-row gap-4">
+              <div className="flex items-center mb-4">
                 <input
                   type="radio"
                   id="isStudent"
@@ -75,23 +74,38 @@ const FirstLogin: React.FC = () => {
                   ref={isStudentRef}
                   value={Role.STUDENT}
                   checked
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                I'am a student
-              </label>
-              <label htmlFor="isProfessor">
+                <label
+                  htmlFor="isStudent"
+                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  I'am a student
+                </label>
+              </div>
+
+              <div className="flex items-center mb-4">
                 <input
                   type="radio"
                   id="isProfessor"
                   name="userRole"
                   value={Role.PROFESSOR}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 />
-                I'am a professor
-              </label>
-            </fieldset>
-          </fieldset>
+                <label
+                  htmlFor="isProfessor"
+                  className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >
+                  I'am a professor
+                </label>
+              </div>
+            </div>
 
-          <button type="submit">Submit</button>
-        </form>
+            <button type="submit" className="button-fill bg-primary">
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     </main>
   );
