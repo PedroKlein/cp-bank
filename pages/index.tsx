@@ -28,11 +28,20 @@ const Home: React.FC = () => {
   }
 
   return (
-    <main className="justify-center items-center">
+    <main className="justify-center items-center gap-4">
       <section>
         <h1>{`Welcome ${session.user.name} ${getRandomEmoji()}`}</h1>
         <h3 className="text-primary">Enjoy CP Bank </h3>
       </section>
+
+      <div className="flex flex-row gap-4">
+        <Link href="/list">
+          <button className="button-fill bg-primary">My lists</button>
+        </Link>
+        <Link href="/classroom">
+          <button className="button-fill bg-primary">My classrooms</button>
+        </Link>
+      </div>
     </main>
   );
 };

@@ -19,10 +19,24 @@ const Classroom: React.FC = () => {
 
   if (classrooms && classrooms.length === 0) {
     return (
-      <main>
+      <main className="justify-center items-center gap-2">
         <hgroup>
-          <h2>{`You aren't in any classroom yet!`}</h2>
+          <h2>{`You don't have in any classrooms yet!`}</h2>
         </hgroup>
+        {session.user.role === Role.PROFESSOR && (
+          <button
+            className="button-fill bg-primary"
+            onClick={() => setModalOpen(true)}
+          >
+            Create classroom
+          </button>
+        )}
+        {modalOpen && (
+          <CreateClassroomModal
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)}
+          />
+        )}
       </main>
     );
   }
