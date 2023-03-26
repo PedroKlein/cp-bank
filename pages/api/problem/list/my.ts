@@ -37,6 +37,9 @@ async function getMyProblemsLists(req: NextApiRequest, res: NextApiResponse) {
       tags: true,
       classroom: true,
     },
+    orderBy: {
+      submissionDate: "asc",
+    },
   });
 
   return res.json(problemsLists);
