@@ -8,6 +8,7 @@ import CreateProblemList from "../../components/Modal/CreateProblemList";
 import { CompleteClassroom } from "../../@types/classroom.types";
 import ProblemListProfessor from "../../components/Problem/ProblemListProfessor";
 import ProblemListStudent from "../../components/Problem/ProblemListStudent";
+import Loader from "../../components/Loader";
 
 const ClassroomPage: React.FC = () => {
   const router = useRouter();
@@ -22,11 +23,15 @@ const ClassroomPage: React.FC = () => {
   const isProfessor = classroom?.professor.id === session?.user?.id;
 
   if (status === "loading" || !classroom)
-    return <main aria-busy className="center" />;
+    return (
+      <main className="justify-center items-center">
+        <Loader />
+      </main>
+    );
 
   return (
     <main>
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-8">
         <div className="flex justify-between">
           <hgroup>
             <h1>{classroom.name}</h1>
@@ -51,12 +56,11 @@ const ClassroomPage: React.FC = () => {
           )}
         </div>
         <div className="grid grid-cols-2 h-full gap-8">
-          <div className="flex flex-col gap-2">
-            
-        <p>
-          <b>description: </b>
-          {classroom?.description}
-        </p>
+          <div className="flex flex-col gap-4">
+            <p>
+              <b>description: </b>
+              {classroom?.description}
+            </p>
             <span>{`Students (${classroom?.students.length})`}</span>
             <ul className="flex flex-row flex-wrap gap-2">
               {classroom?.students.map((student) => (

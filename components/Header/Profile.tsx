@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useOnClickOutside } from "../../hooks/useOnClickOutside";
 import { useCallback } from "react";
 import AvatarIcon from "../Generic/AvatarIcon";
+import { Role } from "@prisma/client";
 
 const Profile = () => {
   const { data: session, status } = useSession();
@@ -44,6 +45,11 @@ const Profile = () => {
               <span>{session?.user?.name}</span>
               <span className="font-medium truncate">
                 {session?.user?.email}
+              </span>
+              <span className="text-neutral truncate">
+                {session?.user?.role === Role.STUDENT
+                  ? "(student)"
+                  : "(professor)"}
               </span>
             </div>
             <ul

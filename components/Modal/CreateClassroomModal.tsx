@@ -43,7 +43,7 @@ const CreateClassroomModal: React.FC<Props> = ({ isOpen, onClose }) => {
     >
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-4 w-96"
       >
         <div className="input-container">
           <label htmlFor="name">Name</label>

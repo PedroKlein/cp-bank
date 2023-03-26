@@ -5,6 +5,7 @@ import useSWR from "swr";
 import CreateClassroomModal from "../../components/Modal/CreateClassroomModal";
 import { useSession } from "next-auth/react";
 import ClassroomItem from "../../components/Classroom/ClassroomItem";
+import Loader from "../../components/Loader";
 
 const Classroom: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -15,7 +16,12 @@ const Classroom: React.FC = () => {
   >("/api/classroom/my");
   const { data: session, status } = useSession();
 
-  if (status === "loading" || !classrooms) return <main aria-busy />;
+  if (status === "loading" || !classrooms)
+    return (
+      <main className="justify-center items-center">
+        <Loader />
+      </main>
+    );
 
   if (classrooms && classrooms.length === 0) {
     return (

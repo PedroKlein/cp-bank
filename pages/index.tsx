@@ -2,11 +2,17 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import getRandomEmoji from "../utils/randomEmoji.utils";
+import Loader from "../components/Loader";
 
 const Home: React.FC = () => {
   const { data: session, status } = useSession();
 
-  if (status === "loading") return <main className="center" aria-busy />;
+  if (status === "loading")
+    return (
+      <main className="justify-center items-center">
+        <Loader />
+      </main>
+    );
 
   if (status === "unauthenticated") {
     return (

@@ -1,6 +1,5 @@
 import React from "react";
 import Modal, { ModalProps } from "../../layouts/Modal";
-import { title } from "process";
 
 export type ActionModalProps = {
   title: string;
